@@ -40,6 +40,8 @@ namespace ServerRec
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.maskedTextPort = new System.Windows.Forms.MaskedTextBox();
             this.maskedTextIP = new System.Windows.Forms.MaskedTextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxName = new System.Windows.Forms.TextBox();
             this.boxLog.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -154,11 +156,29 @@ namespace ServerRec
             this.maskedTextIP.Size = new System.Drawing.Size(123, 20);
             this.maskedTextIP.TabIndex = 9;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 71);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(93, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Имя ассистента:";
+            // 
+            // textBoxName
+            // 
+            this.textBoxName.Location = new System.Drawing.Point(108, 68);
+            this.textBoxName.Name = "textBoxName";
+            this.textBoxName.Size = new System.Drawing.Size(115, 20);
+            this.textBoxName.TabIndex = 11;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(502, 265);
+            this.Controls.Add(this.textBoxName);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.boxLog);
             this.Controls.Add(this.buttonRun);
@@ -174,6 +194,7 @@ namespace ServerRec
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -189,6 +210,8 @@ namespace ServerRec
         private System.Windows.Forms.MaskedTextBox maskedTextIP;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button buttonError;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxName;
     }
 }
 

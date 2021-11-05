@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms;
+using ServerRec.Network;
 
 namespace ServerRec
 {
@@ -21,6 +22,7 @@ namespace ServerRec
 
         public void RunSocket()
         {
+            int lineCount;
             IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(ip), port);
             Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
@@ -45,6 +47,8 @@ namespace ServerRec
                         new Action(() => {
                             rtb.AppendText("=> " + DateTime.Now.ToLocalTime() + 
                                 ": " + builder.ToString());
+                            RequestAssistant ra = new RequestAssistant(rtb.Lines);
+                            ra.Get(rtb);                            
                             rtb.ScrollToCaret();
                         }));
 

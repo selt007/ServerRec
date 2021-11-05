@@ -23,7 +23,7 @@ namespace ServerRec
             errLog = new ErrorLoging();
 
             config = new Config(
-                maskedTextIP, maskedTextPort);
+                maskedTextIP, maskedTextPort, textBoxName);
             config.GetCfg();
 
             ip = maskedTextIP.Text;
@@ -52,7 +52,7 @@ namespace ServerRec
                     threadSocket.Start();
                     buttonRun.Text = "Стоп";
                     richTextBox.Text += "<- " + DateTime.Now.ToLocalTime() + 
-                        ": " + "Сервер запущен. Ожидание подключений..." + "\n";
+                        ": " + "Сервер запущен. Выполняется прослушивание..." + "\n";
                     run = true;
                 }
                 else
