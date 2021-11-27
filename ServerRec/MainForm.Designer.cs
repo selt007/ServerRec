@@ -102,7 +102,7 @@ namespace ServerRec
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(112, 23);
             this.button2.TabIndex = 2;
-            this.button2.Text = "button2";
+            this.button2.Text = "Set";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // buttonError
@@ -112,7 +112,7 @@ namespace ServerRec
             this.buttonError.Name = "buttonError";
             this.buttonError.Size = new System.Drawing.Size(112, 23);
             this.buttonError.TabIndex = 1;
-            this.buttonError.Text = "Errors log";
+            this.buttonError.Text = "Open file errors log";
             this.buttonError.UseVisualStyleBackColor = true;
             this.buttonError.Click += new System.EventHandler(this.buttonError_Click);
             // 

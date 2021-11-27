@@ -16,6 +16,15 @@ namespace ServerRec
             this.tb1 = tb1;
             this.tb2 = tb2;
             this.tb3 = tb3;
+
+            if (!File.Exists("config.cfg"))
+                File.Create("config.cfg").Close();
+
+            if (!Directory.Exists("models"))
+                Directory.CreateDirectory("models");
+            if (!Directory.Exists("temp"))
+                Directory.CreateDirectory("temp");
+
         }
 
         public void SetCfg()
@@ -36,18 +45,23 @@ namespace ServerRec
             }
         }
 
-        public void GetCfg()
+        public void GetCfg(out bool cfg)
         {
             string[] str;
+            cfg = false;
             try
             {
                 using (StreamReader sr = new StreamReader(path))
                 {
-                    str = sr.ReadToEnd().Split('\n'); ;
-                    tb1.Text = str[0];
-                    tb2.Text = str[1];
-                    tb3.Text = nameAssist = 
-                        str[2].Replace("\r", "");
+                    str = sr.ReadToEnd().Split('\n');
+                    if (str.Length > 1)
+                    {
+                        tb1.Text = str[0];
+                        tb2.Text = str[1];
+                        tb3.Text = nameAssist =
+                            str[2].Replace("\r", "");
+                        cfg = true;
+                    }
                 }
             }
             catch (Exception ex)

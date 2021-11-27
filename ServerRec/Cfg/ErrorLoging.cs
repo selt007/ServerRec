@@ -29,6 +29,8 @@ namespace ServerRec
         {
             try
             {
+                if (!File.Exists(path))
+                    File.Create(path).Close();
                 System.Diagnostics.Process log = new System.Diagnostics.Process();
                 log.StartInfo.FileName = "notepad.exe";
                 log.StartInfo.Arguments = path;

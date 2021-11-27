@@ -22,7 +22,7 @@ namespace ServerRec
 
         public void RunSocket()
         {
-            int lineCount;
+            //int lineCount;
             IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(ip), port);
             Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
@@ -52,9 +52,6 @@ namespace ServerRec
                             rtb.ScrollToCaret();
                         }));
 
-                    string message = "Доставлено!";
-                    data = Encoding.Unicode.GetBytes(message);
-                    handler.Send(data);
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
                 }

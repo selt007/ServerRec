@@ -7,14 +7,14 @@ namespace ServerRec
     public partial class MainForm : Form
     {
         public static ErrorLoging errLog;
+        SetupSocket setSocket;
+        Thread threadSocket;
         static Config config;
         static int port;
         static string ip;
-        public static string msgLog;
         bool run = false;
         bool log = false;
-        Thread threadSocket;
-        SetupSocket setSocket;
+        bool cfg;
 
         public MainForm()
         {
@@ -24,14 +24,20 @@ namespace ServerRec
 
             config = new Config(
                 maskedTextIP, maskedTextPort, textBoxName);
-            config.GetCfg();
+            config.GetCfg(out cfg);
 
-            ip = maskedTextIP.Text;
-            port = Convert.ToInt32(maskedTextPort.Text);
-            setSocket = new SetupSocket(richTextBox, ip, port);
+            if (cfg)
+            {
+                ip = maskedTextIP.Text;
+                port = Convert.ToInt32(maskedTextPort.Text);
+                setSocket = new SetupSocket(richTextBox, ip, port);
 
-            threadSocket = new Thread(setSocket.RunSocket);
-            threadSocket.IsBackground = true;
+                threadSocket = new Thread(setSocket.RunSocket);
+                threadSocket.IsBackground = true;
+            }
+
+            VoskInit vd = new VoskInit(richTextBox);
+            vd.Run();
         }
 
         private void buttonLog_Click(object sender, EventArgs e) => 
