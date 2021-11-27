@@ -36,7 +36,7 @@ namespace ServerRec
                 using (StreamWriter sw = new StreamWriter(path, false, System.Text.Encoding.UTF8))
                 {
                     sw.WriteLine(tb1.Text + "\n" + tb2.Text + "\n" 
-                        + tb3.Text.ToLower() + "\n" + model.Text);
+                        + tb3.Text.ToLower() + "\n" + model.Text.Replace("\r", ""));
                     nameAssist = tb3.Text;
                 }
             }
@@ -62,7 +62,7 @@ namespace ServerRec
                         tb2.Text = str[1];
                         tb3.Text = nameAssist =
                             str[2].Replace("\r", "");
-                        model.Text = str[3];
+                        model.Text = str[3].Replace("\r", "");
                         cfg = true;
                     }
                 }

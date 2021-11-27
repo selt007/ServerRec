@@ -7,6 +7,7 @@ namespace ServerRec
     public partial class MainForm : Form
     {
         public static ErrorLoging errLog;
+        public static float rate;
         SetupSocket setSocket;
         Thread threadSocket;
         Thread threadInit;
@@ -28,6 +29,11 @@ namespace ServerRec
                 maskedTextIP, maskedTextPort, textBoxName, modelNameLabel);
             config.GetCfg(out cfg);
 
+            if (rb8.Checked) rate = 8000.0f;
+            else if (rb24.Checked) rate = 24000.0f;
+            else if (rb32.Checked) rate = 32000.0f;
+            else rate = 16000.0f;
+
             if (cfg)
             {
                 ip = maskedTextIP.Text;
@@ -37,10 +43,6 @@ namespace ServerRec
                 threadSocket = new Thread(setSocket.RunSocket);
                 threadSocket.IsBackground = true;
             }
-
-            voskInit = new VoskInit(richTextBox, modelNameLabel.Text);
-            threadInit = new Thread(voskInit.Init);
-            threadInit.IsBackground = true;
         }
 
         private void buttonLog_Click(object sender, EventArgs e) => 
@@ -60,7 +62,13 @@ namespace ServerRec
                 if (!run)
                 {
                     if (checkBoxModel.Checked)
+                    {
+                        voskInit = new VoskInit(richTextBox, modelNameLabel.Text);
+                        threadInit = new Thread(voskInit.Init);
+                        threadInit.IsBackground = true;
                         threadInit.Start();
+                    }
+
                     threadSocket.Start();
                     buttonRun.Text = "Стоп";
                     richTextBox.AppendText("<- " + DateTime.Now.ToLocalTime() + 
@@ -118,11 +126,21 @@ namespace ServerRec
             {
                 modelExploreButton.Enabled = true;
                 modelNameLabel.Enabled = true;
+                rb8.Enabled = true;
+                rb16.Enabled = true;
+                rb24.Enabled = true;
+                rb32.Enabled = true;
+                label3.Enabled = true;
             }
             else
             {
                 modelExploreButton.Enabled = false;
                 modelNameLabel.Enabled = false;
+                rb8.Enabled = false;
+                rb16.Enabled = false;
+                rb24.Enabled = false;
+                rb32.Enabled = false;
+                label3.Enabled = false;
             }
         }
 

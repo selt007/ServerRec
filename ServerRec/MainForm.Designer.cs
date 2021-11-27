@@ -45,7 +45,12 @@ namespace ServerRec
             this.modelExploreButton = new System.Windows.Forms.Button();
             this.modelNameLabel = new System.Windows.Forms.Label();
             this.groupBoxModel = new System.Windows.Forms.GroupBox();
+            this.rb32 = new System.Windows.Forms.RadioButton();
+            this.rb24 = new System.Windows.Forms.RadioButton();
+            this.rb16 = new System.Windows.Forms.RadioButton();
+            this.rb8 = new System.Windows.Forms.RadioButton();
             this.checkBoxModel = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.boxLog.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBoxModel.SuspendLayout();
@@ -76,6 +81,7 @@ namespace ServerRec
             // buttonRun
             // 
             this.buttonRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonRun.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonRun.Location = new System.Drawing.Point(12, 224);
             this.buttonRun.Name = "buttonRun";
             this.buttonRun.Size = new System.Drawing.Size(130, 29);
@@ -164,7 +170,8 @@ namespace ServerRec
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 71);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label2.Location = new System.Drawing.Point(14, 68);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(93, 13);
             this.label2.TabIndex = 10;
@@ -172,16 +179,18 @@ namespace ServerRec
             // 
             // textBoxName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(108, 68);
+            this.textBoxName.Location = new System.Drawing.Point(108, 65);
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(115, 20);
             this.textBoxName.TabIndex = 11;
             // 
             // modelExploreButton
             // 
-            this.modelExploreButton.Location = new System.Drawing.Point(6, 43);
+            this.modelExploreButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.modelExploreButton.Location = new System.Drawing.Point(6, 60);
             this.modelExploreButton.Name = "modelExploreButton";
-            this.modelExploreButton.Size = new System.Drawing.Size(104, 29);
+            this.modelExploreButton.Size = new System.Drawing.Size(199, 26);
             this.modelExploreButton.TabIndex = 12;
             this.modelExploreButton.Text = "Выбрать модель";
             this.modelExploreButton.UseVisualStyleBackColor = true;
@@ -189,28 +198,88 @@ namespace ServerRec
             // 
             // modelNameLabel
             // 
+            this.modelNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.modelNameLabel.AutoSize = true;
-            this.modelNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)), true);
-            this.modelNameLabel.Location = new System.Drawing.Point(116, 49);
+            this.modelNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)), true);
+            this.modelNameLabel.Location = new System.Drawing.Point(77, 39);
             this.modelNameLabel.Name = "modelNameLabel";
-            this.modelNameLabel.Size = new System.Drawing.Size(51, 17);
+            this.modelNameLabel.Size = new System.Drawing.Size(47, 15);
             this.modelNameLabel.TabIndex = 13;
             this.modelNameLabel.Text = "model";
             // 
             // groupBoxModel
             // 
+            this.groupBoxModel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.groupBoxModel.Controls.Add(this.label3);
+            this.groupBoxModel.Controls.Add(this.rb32);
+            this.groupBoxModel.Controls.Add(this.rb24);
+            this.groupBoxModel.Controls.Add(this.rb16);
+            this.groupBoxModel.Controls.Add(this.rb8);
             this.groupBoxModel.Controls.Add(this.checkBoxModel);
             this.groupBoxModel.Controls.Add(this.modelExploreButton);
             this.groupBoxModel.Controls.Add(this.modelNameLabel);
-            this.groupBoxModel.Location = new System.Drawing.Point(12, 94);
+            this.groupBoxModel.Location = new System.Drawing.Point(12, 90);
             this.groupBoxModel.Name = "groupBoxModel";
-            this.groupBoxModel.Size = new System.Drawing.Size(223, 80);
+            this.groupBoxModel.Size = new System.Drawing.Size(211, 115);
             this.groupBoxModel.TabIndex = 14;
             this.groupBoxModel.TabStop = false;
-            this.groupBoxModel.Text = "Выбор модели:";
+            this.groupBoxModel.Text = "Тип работы:";
+            // 
+            // rb32
+            // 
+            this.rb32.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb32.AutoSize = true;
+            this.rb32.Location = new System.Drawing.Point(157, 92);
+            this.rb32.Name = "rb32";
+            this.rb32.Size = new System.Drawing.Size(51, 17);
+            this.rb32.TabIndex = 18;
+            this.rb32.Text = "32 bit";
+            this.rb32.UseVisualStyleBackColor = true;
+            // 
+            // rb24
+            // 
+            this.rb24.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb24.AutoSize = true;
+            this.rb24.Location = new System.Drawing.Point(106, 92);
+            this.rb24.Name = "rb24";
+            this.rb24.Size = new System.Drawing.Size(51, 17);
+            this.rb24.TabIndex = 17;
+            this.rb24.Text = "24 bit";
+            this.rb24.UseVisualStyleBackColor = true;
+            // 
+            // rb16
+            // 
+            this.rb16.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb16.AutoSize = true;
+            this.rb16.Checked = true;
+            this.rb16.Location = new System.Drawing.Point(54, 92);
+            this.rb16.Name = "rb16";
+            this.rb16.Size = new System.Drawing.Size(51, 17);
+            this.rb16.TabIndex = 16;
+            this.rb16.TabStop = true;
+            this.rb16.Text = "16 bit";
+            this.rb16.UseVisualStyleBackColor = true;
+            // 
+            // rb8
+            // 
+            this.rb8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rb8.AutoSize = true;
+            this.rb8.Location = new System.Drawing.Point(7, 92);
+            this.rb8.Name = "rb8";
+            this.rb8.Size = new System.Drawing.Size(45, 17);
+            this.rb8.TabIndex = 15;
+            this.rb8.Text = "8 bit";
+            this.rb8.UseVisualStyleBackColor = true;
             // 
             // checkBoxModel
             // 
+            this.checkBoxModel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBoxModel.AutoSize = true;
             this.checkBoxModel.Checked = true;
             this.checkBoxModel.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -221,6 +290,17 @@ namespace ServerRec
             this.checkBoxModel.Text = "Использовать локальную модель";
             this.checkBoxModel.UseVisualStyleBackColor = true;
             this.checkBoxModel.CheckedChanged += new System.EventHandler(this.checkBoxModel_CheckedChanged);
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(4, 42);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(76, 13);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Имя модели: ";
             // 
             // MainForm
             // 
@@ -269,6 +349,11 @@ namespace ServerRec
         private System.Windows.Forms.Label modelNameLabel;
         private System.Windows.Forms.GroupBox groupBoxModel;
         private System.Windows.Forms.CheckBox checkBoxModel;
+        private System.Windows.Forms.RadioButton rb32;
+        private System.Windows.Forms.RadioButton rb24;
+        private System.Windows.Forms.RadioButton rb16;
+        private System.Windows.Forms.RadioButton rb8;
+        private System.Windows.Forms.Label label3;
     }
 }
 

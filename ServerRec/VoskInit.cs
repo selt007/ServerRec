@@ -9,13 +9,13 @@ public class VoskInit
     string nameAudio = "temp\\test.m4a";
     string nameModel = "models\\";
     Model model;
-    float rate = 16000.0f;
+    float rate = ServerRec.MainForm.rate;
     public static string str;
 
     public VoskInit(RichTextBox rtb, string nameModel)
     {
         this.rtb = rtb;
-        this.nameModel += nameModel.Replace("\r","");
+        this.nameModel += nameModel;
     }
 
     public void DemoBytes(Model model)
