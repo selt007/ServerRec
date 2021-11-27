@@ -6,14 +6,16 @@ using Vosk;
 public class VoskInit
 {
     RichTextBox rtb;
-    string nameAudio = "temp\\test1.wav";
-    string nameModel = "models\\model-ru";
+    string nameAudio = "temp\\test.m4a";
+    string nameModel = "models\\";
+    Model model;
     float rate = 16000.0f;
-    string str;
+    public static string str;
 
-    public VoskInit(RichTextBox rtb)
+    public VoskInit(RichTextBox rtb, string nameModel)
     {
         this.rtb = rtb;
+        this.nameModel += nameModel.Replace("\r","");
     }
 
     public void DemoBytes(Model model)
@@ -33,7 +35,7 @@ public class VoskInit
                 }
             }
         }
-        str += "DemoBytes" + rec.FinalResult() + "\n";
+        str += "DemoBytes: " + rec.FinalResult().Substring(13) + "\n";
     }
 
     public void DemoFloats(Model model)
@@ -58,7 +60,7 @@ public class VoskInit
                 }
             }
         }
-        str += "DemoFloats" + rec.FinalResult() + "\n";
+        str += "DemoFloats: " + rec.FinalResult().Substring(13) + "\n";
     }
 
     public void DemoSpeaker(Model model)
@@ -79,26 +81,39 @@ public class VoskInit
                 }
             }
         }
-        str += "DemoSpeaker" + rec.FinalResult() + "\n";
+        str += "DemoSpeaker: " + rec.FinalResult().Substring(13) + "\n";
+    }
+
+    public void Init()
+    {
+        // You can set to -1 to disable logging messages
+        Vosk.Vosk.SetLogLevel(0);
+        rtb.BeginInvoke(
+                        new Action(() => {
+                            rtb.AppendText("<- " + DateTime.Now.ToLocalTime() +
+                                ": Модель по пути \"" + nameModel + "\" загружается в память, подождите...\n");
+                            rtb.ScrollToCaret();
+                        }));
+        model = new Model(nameModel);
+        rtb.BeginInvoke(
+                        new Action(() => {
+                            rtb.AppendText("<- " + DateTime.Now.ToLocalTime() +
+                                ": Модель загружена.\n");
+                            rtb.ScrollToCaret();
+                        }));
     }
 
     public void Run()
     {
         if (Directory.Exists(nameModel))
         {
-            // You can set to -1 to disable logging messages
-            Vosk.Vosk.SetLogLevel(0);
-
-            Model model = new Model(nameModel);
-            DemoBytes(model);
+            //DemoBytes(model);
             DemoFloats(model);
-            DemoSpeaker(model);
+            //DemoSpeaker(model);
 
-            rtb.BeginInvoke(
-                        new Action(() => {
-                            rtb.AppendText(str);
-                            rtb.ScrollToCaret();
-                        }));
+            rtb.AppendText("<- " + DateTime.Now.ToLocalTime() + ": " +
+                                str.Replace("}","").Replace("\n", "") + "\n");
+            rtb.ScrollToCaret();
         }
         else
         {

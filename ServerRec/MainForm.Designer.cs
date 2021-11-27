@@ -34,7 +34,7 @@ namespace ServerRec
             this.buttonLog = new System.Windows.Forms.Button();
             this.buttonRun = new System.Windows.Forms.Button();
             this.boxLog = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.testButton = new System.Windows.Forms.Button();
             this.buttonError = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -42,8 +42,13 @@ namespace ServerRec
             this.maskedTextIP = new System.Windows.Forms.MaskedTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
+            this.modelExploreButton = new System.Windows.Forms.Button();
+            this.modelNameLabel = new System.Windows.Forms.Label();
+            this.groupBoxModel = new System.Windows.Forms.GroupBox();
+            this.checkBoxModel = new System.Windows.Forms.CheckBox();
             this.boxLog.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBoxModel.SuspendLayout();
             this.SuspendLayout();
             // 
             // richTextBox
@@ -84,7 +89,7 @@ namespace ServerRec
             this.boxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.boxLog.Controls.Add(this.button2);
+            this.boxLog.Controls.Add(this.testButton);
             this.boxLog.Controls.Add(this.buttonError);
             this.boxLog.Controls.Add(this.richTextBox);
             this.boxLog.Location = new System.Drawing.Point(241, 12);
@@ -94,16 +99,16 @@ namespace ServerRec
             this.boxLog.TabStop = false;
             this.boxLog.Text = "Log:";
             // 
-            // button2
+            // testButton
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(6, 212);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(112, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Set";
-            this.button2.UseVisualStyleBackColor = true;
+            this.testButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.testButton.Location = new System.Drawing.Point(6, 212);
+            this.testButton.Name = "testButton";
+            this.testButton.Size = new System.Drawing.Size(112, 23);
+            this.testButton.TabIndex = 2;
+            this.testButton.Text = "Test";
+            this.testButton.UseVisualStyleBackColor = true;
+            this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
             // buttonError
             // 
@@ -172,11 +177,57 @@ namespace ServerRec
             this.textBoxName.Size = new System.Drawing.Size(115, 20);
             this.textBoxName.TabIndex = 11;
             // 
+            // modelExploreButton
+            // 
+            this.modelExploreButton.Location = new System.Drawing.Point(6, 43);
+            this.modelExploreButton.Name = "modelExploreButton";
+            this.modelExploreButton.Size = new System.Drawing.Size(104, 29);
+            this.modelExploreButton.TabIndex = 12;
+            this.modelExploreButton.Text = "Выбрать модель";
+            this.modelExploreButton.UseVisualStyleBackColor = true;
+            this.modelExploreButton.Click += new System.EventHandler(this.modelExploreButton_Click);
+            // 
+            // modelNameLabel
+            // 
+            this.modelNameLabel.AutoSize = true;
+            this.modelNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(204)), true);
+            this.modelNameLabel.Location = new System.Drawing.Point(116, 49);
+            this.modelNameLabel.Name = "modelNameLabel";
+            this.modelNameLabel.Size = new System.Drawing.Size(51, 17);
+            this.modelNameLabel.TabIndex = 13;
+            this.modelNameLabel.Text = "model";
+            // 
+            // groupBoxModel
+            // 
+            this.groupBoxModel.Controls.Add(this.checkBoxModel);
+            this.groupBoxModel.Controls.Add(this.modelExploreButton);
+            this.groupBoxModel.Controls.Add(this.modelNameLabel);
+            this.groupBoxModel.Location = new System.Drawing.Point(12, 94);
+            this.groupBoxModel.Name = "groupBoxModel";
+            this.groupBoxModel.Size = new System.Drawing.Size(223, 80);
+            this.groupBoxModel.TabIndex = 14;
+            this.groupBoxModel.TabStop = false;
+            this.groupBoxModel.Text = "Выбор модели:";
+            // 
+            // checkBoxModel
+            // 
+            this.checkBoxModel.AutoSize = true;
+            this.checkBoxModel.Checked = true;
+            this.checkBoxModel.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxModel.Location = new System.Drawing.Point(7, 20);
+            this.checkBoxModel.Name = "checkBoxModel";
+            this.checkBoxModel.Size = new System.Drawing.Size(198, 17);
+            this.checkBoxModel.TabIndex = 14;
+            this.checkBoxModel.Text = "Использовать локальную модель";
+            this.checkBoxModel.UseVisualStyleBackColor = true;
+            this.checkBoxModel.CheckedChanged += new System.EventHandler(this.checkBoxModel_CheckedChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(502, 265);
+            this.Controls.Add(this.groupBoxModel);
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.groupBox1);
@@ -193,6 +244,8 @@ namespace ServerRec
             this.boxLog.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBoxModel.ResumeLayout(false);
+            this.groupBoxModel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -208,10 +261,14 @@ namespace ServerRec
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.MaskedTextBox maskedTextPort;
         private System.Windows.Forms.MaskedTextBox maskedTextIP;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button testButton;
         private System.Windows.Forms.Button buttonError;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxName;
+        private System.Windows.Forms.Button modelExploreButton;
+        private System.Windows.Forms.Label modelNameLabel;
+        private System.Windows.Forms.GroupBox groupBoxModel;
+        private System.Windows.Forms.CheckBox checkBoxModel;
     }
 }
 

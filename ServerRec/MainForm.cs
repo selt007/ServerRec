@@ -10,6 +10,7 @@ namespace ServerRec
         SetupSocket setSocket;
         Thread threadSocket;
         Thread threadInit;
+        VoskInit voskInit;
         static Config config;
         static int port;
         static string ip;
@@ -24,7 +25,7 @@ namespace ServerRec
             errLog = new ErrorLoging();
 
             config = new Config(
-                maskedTextIP, maskedTextPort, textBoxName);
+                maskedTextIP, maskedTextPort, textBoxName, modelNameLabel);
             config.GetCfg(out cfg);
 
             if (cfg)
@@ -37,10 +38,9 @@ namespace ServerRec
                 threadSocket.IsBackground = true;
             }
 
-            VoskInit vd = new VoskInit(richTextBox);
-            threadInit = new Thread(vd.Run);
+            voskInit = new VoskInit(richTextBox, modelNameLabel.Text);
+            threadInit = new Thread(voskInit.Init);
             threadInit.IsBackground = true;
-            threadInit.Start();
         }
 
         private void buttonLog_Click(object sender, EventArgs e) => 
@@ -49,29 +49,33 @@ namespace ServerRec
         private void buttonRun_Click(object sender, EventArgs e)
         {
             if (maskedTextIP.Text.Equals("") || maskedTextPort.Text.Equals(""))
-            {
                 MessageBox.Show("В поля с IP и\\или портом не были введены значения!", "Information!",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            else if (modelNameLabel.Text.Equals(""))
+                MessageBox.Show("Выберите необходимую модель!", "Information!",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
             {
                 config.SetCfg();
                 if (!run)
                 {
+                    if (checkBoxModel.Checked)
+                        threadInit.Start();
                     threadSocket.Start();
                     buttonRun.Text = "Стоп";
-                    richTextBox.Text += "<- " + DateTime.Now.ToLocalTime() + 
-                        ": " + "Сервер запущен. Выполняется прослушивание..." + "\n";
+                    richTextBox.AppendText("<- " + DateTime.Now.ToLocalTime() + 
+                        ": " + "Сервер запущен. Выполняется прослушивание..." + "\n");
                     run = true;
                 }
                 else
                 {
                     buttonRun.Text = "Старт";
-                    richTextBox.Text += "<- " + DateTime.Now.ToLocalTime() + 
-                        ": " + "Сервер остановлен!" + "\n";
+                    richTextBox.AppendText("<- " + DateTime.Now.ToLocalTime() + 
+                        ": " + "Сервер остановлен!" + "\n");
                     run = false;
                     buttonRun.Enabled = false;
                 }
+                richTextBox.ScrollToCaret();
             }            
         }
 
@@ -93,5 +97,39 @@ namespace ServerRec
 
         private void buttonError_Click(object sender, EventArgs e) =>
             errLog.GetLog();
+
+        private void modelExploreButton_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            folderBrowserDialog.ShowNewFolderButton = false;
+            folderBrowserDialog.SelectedPath = Application.StartupPath + "\\models";
+
+            DialogResult result = folderBrowserDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string openPath = folderBrowserDialog.SelectedPath;
+                modelNameLabel.Text = openPath.Replace(Application.StartupPath + "\\models\\", "");
+            }
+        }
+
+        private void checkBoxModel_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxModel.Checked)
+            {
+                modelExploreButton.Enabled = true;
+                modelNameLabel.Enabled = true;
+            }
+            else
+            {
+                modelExploreButton.Enabled = false;
+                modelNameLabel.Enabled = false;
+            }
+        }
+
+        private void testButton_Click(object sender, EventArgs e)
+        {
+            voskInit.Run();
+            VoskInit.str = "";
+        }
     }
 }
