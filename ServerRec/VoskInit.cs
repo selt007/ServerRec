@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Windows.Forms;
 using Vosk;
@@ -8,6 +9,7 @@ public class VoskInit
     string nameAudio = "temp\\test1.wav";
     string nameModel = "models\\model-ru";
     float rate = 16000.0f;
+    string str;
 
     public VoskInit(RichTextBox rtb)
     {
@@ -25,13 +27,13 @@ public class VoskInit
             int bytesRead;
             while((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0) {
                 if (rec.AcceptWaveform(buffer, bytesRead)) {
-                    rtb.Text += (rec.Result());
+                    //str += (rec.Result());
                 } else {
-                    //rtb.Text += (rec.PartialResult());
+                    //str += (rec.PartialResult());
                 }
             }
         }
-        rtb.Text += (rec.FinalResult());
+        str += "DemoBytes" + rec.FinalResult() + "\n";
     }
 
     public void DemoFloats(Model model)
@@ -48,15 +50,15 @@ public class VoskInit
                 }
                 if (rec.AcceptWaveform(fbuffer, fbuffer.Length))
                 {
-                    rtb.Text += (rec.Result());
+                    //str += (rec.Result());
                 }
                 else
                 {
-                    //rtb.Text += (rec.PartialResult());
+                    //str += (rec.PartialResult());
                 }
             }
         }
-        rtb.Text += (rec.FinalResult());
+        str += "DemoFloats" + rec.FinalResult() + "\n";
     }
 
     public void DemoSpeaker(Model model)
@@ -71,13 +73,13 @@ public class VoskInit
             int bytesRead;
             while((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0) {
                 if (rec.AcceptWaveform(buffer, bytesRead)) {
-                    rtb.Text += (rec.Result());
+                    //str += (rec.Result());
                 } else {
-                    rtb.Text += (rec.PartialResult());
+                    //str += (rec.PartialResult());
                 }
             }
         }
-        rtb.Text += (rec.FinalResult());
+        str += "DemoSpeaker" + rec.FinalResult() + "\n";
     }
 
     public void Run()
@@ -90,7 +92,13 @@ public class VoskInit
             Model model = new Model(nameModel);
             DemoBytes(model);
             DemoFloats(model);
-            //DemoSpeaker(model);
+            DemoSpeaker(model);
+
+            rtb.BeginInvoke(
+                        new Action(() => {
+                            rtb.AppendText(str);
+                            rtb.ScrollToCaret();
+                        }));
         }
         else
         {

@@ -9,6 +9,7 @@ namespace ServerRec
         public static ErrorLoging errLog;
         SetupSocket setSocket;
         Thread threadSocket;
+        Thread threadInit;
         static Config config;
         static int port;
         static string ip;
@@ -37,7 +38,9 @@ namespace ServerRec
             }
 
             VoskInit vd = new VoskInit(richTextBox);
-            vd.Run();
+            threadInit = new Thread(vd.Run);
+            threadInit.IsBackground = true;
+            threadInit.Start();
         }
 
         private void buttonLog_Click(object sender, EventArgs e) => 
