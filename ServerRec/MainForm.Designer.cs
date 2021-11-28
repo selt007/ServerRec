@@ -36,11 +36,11 @@ namespace ServerRec
             this.boxLog = new System.Windows.Forms.GroupBox();
             this.testButton = new System.Windows.Forms.Button();
             this.buttonError = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label = new System.Windows.Forms.Label();
+            this.groupBoxIP = new System.Windows.Forms.GroupBox();
             this.maskedTextPort = new System.Windows.Forms.MaskedTextBox();
             this.maskedTextIP = new System.Windows.Forms.MaskedTextBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.labelNameAss = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.modelExploreButton = new System.Windows.Forms.Button();
             this.modelNameLabel = new System.Windows.Forms.Label();
@@ -50,9 +50,9 @@ namespace ServerRec
             this.rb16 = new System.Windows.Forms.RadioButton();
             this.rb8 = new System.Windows.Forms.RadioButton();
             this.checkBoxModel = new System.Windows.Forms.CheckBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.labelModelAdd = new System.Windows.Forms.Label();
             this.boxLog.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.groupBoxIP.SuspendLayout();
             this.groupBoxModel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -127,27 +127,27 @@ namespace ServerRec
             this.buttonError.UseVisualStyleBackColor = true;
             this.buttonError.Click += new System.EventHandler(this.buttonError_Click);
             // 
-            // label1
+            // label
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(133, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(10, 15);
-            this.label1.TabIndex = 8;
-            this.label1.Text = ":";
+            this.label.AutoSize = true;
+            this.label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label.Location = new System.Drawing.Point(133, 20);
+            this.label.Name = "label";
+            this.label.Size = new System.Drawing.Size(10, 15);
+            this.label.TabIndex = 8;
+            this.label.Text = ":";
             // 
-            // groupBox1
+            // groupBoxIP
             // 
-            this.groupBox1.Controls.Add(this.maskedTextPort);
-            this.groupBox1.Controls.Add(this.maskedTextIP);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(211, 50);
-            this.groupBox1.TabIndex = 9;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "IP-адрес и порт ПК:";
+            this.groupBoxIP.Controls.Add(this.maskedTextPort);
+            this.groupBoxIP.Controls.Add(this.maskedTextIP);
+            this.groupBoxIP.Controls.Add(this.label);
+            this.groupBoxIP.Location = new System.Drawing.Point(12, 12);
+            this.groupBoxIP.Name = "groupBoxIP";
+            this.groupBoxIP.Size = new System.Drawing.Size(211, 50);
+            this.groupBoxIP.TabIndex = 9;
+            this.groupBoxIP.TabStop = false;
+            this.groupBoxIP.Text = "IP-адрес и порт ПК:";
             // 
             // maskedTextPort
             // 
@@ -167,15 +167,15 @@ namespace ServerRec
             this.maskedTextIP.Size = new System.Drawing.Size(123, 20);
             this.maskedTextIP.TabIndex = 9;
             // 
-            // label2
+            // labelNameAss
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label2.Location = new System.Drawing.Point(14, 68);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 13);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "Имя ассистента:";
+            this.labelNameAss.AutoSize = true;
+            this.labelNameAss.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelNameAss.Location = new System.Drawing.Point(14, 68);
+            this.labelNameAss.Name = "labelNameAss";
+            this.labelNameAss.Size = new System.Drawing.Size(93, 13);
+            this.labelNameAss.TabIndex = 10;
+            this.labelNameAss.Text = "Имя ассистента:";
             // 
             // textBoxName
             // 
@@ -211,7 +211,7 @@ namespace ServerRec
             // groupBoxModel
             // 
             this.groupBoxModel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.groupBoxModel.Controls.Add(this.label3);
+            this.groupBoxModel.Controls.Add(this.labelModelAdd);
             this.groupBoxModel.Controls.Add(this.rb32);
             this.groupBoxModel.Controls.Add(this.rb24);
             this.groupBoxModel.Controls.Add(this.rb16);
@@ -291,16 +291,16 @@ namespace ServerRec
             this.checkBoxModel.UseVisualStyleBackColor = true;
             this.checkBoxModel.CheckedChanged += new System.EventHandler(this.checkBoxModel_CheckedChanged);
             // 
-            // label3
+            // labelModelAdd
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.labelModelAdd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 42);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(76, 13);
-            this.label3.TabIndex = 19;
-            this.label3.Text = "Имя модели: ";
+            this.labelModelAdd.AutoSize = true;
+            this.labelModelAdd.Location = new System.Drawing.Point(4, 42);
+            this.labelModelAdd.Name = "labelModelAdd";
+            this.labelModelAdd.Size = new System.Drawing.Size(76, 13);
+            this.labelModelAdd.TabIndex = 19;
+            this.labelModelAdd.Text = "Имя модели: ";
             // 
             // MainForm
             // 
@@ -309,8 +309,8 @@ namespace ServerRec
             this.ClientSize = new System.Drawing.Size(502, 265);
             this.Controls.Add(this.groupBoxModel);
             this.Controls.Add(this.textBoxName);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.labelNameAss);
+            this.Controls.Add(this.groupBoxIP);
             this.Controls.Add(this.boxLog);
             this.Controls.Add(this.buttonRun);
             this.Controls.Add(this.buttonLog);
@@ -322,8 +322,8 @@ namespace ServerRec
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Assistant Server";
             this.boxLog.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupBoxIP.ResumeLayout(false);
+            this.groupBoxIP.PerformLayout();
             this.groupBoxModel.ResumeLayout(false);
             this.groupBoxModel.PerformLayout();
             this.ResumeLayout(false);
@@ -337,13 +337,13 @@ namespace ServerRec
         private System.Windows.Forms.Button buttonLog;
         private System.Windows.Forms.Button buttonRun;
         private System.Windows.Forms.GroupBox boxLog;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label;
+        private System.Windows.Forms.GroupBox groupBoxIP;
         private System.Windows.Forms.MaskedTextBox maskedTextPort;
         private System.Windows.Forms.MaskedTextBox maskedTextIP;
         private System.Windows.Forms.Button testButton;
         private System.Windows.Forms.Button buttonError;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelNameAss;
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Button modelExploreButton;
         private System.Windows.Forms.Label modelNameLabel;
@@ -353,7 +353,7 @@ namespace ServerRec
         private System.Windows.Forms.RadioButton rb24;
         private System.Windows.Forms.RadioButton rb16;
         private System.Windows.Forms.RadioButton rb8;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label labelModelAdd;
     }
 }
 

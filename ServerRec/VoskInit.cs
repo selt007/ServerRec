@@ -29,9 +29,9 @@ public class VoskInit
             int bytesRead;
             while((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0) {
                 if (rec.AcceptWaveform(buffer, bytesRead)) {
-                    //str += (rec.Result());
+                    str += (rec.Result());
                 } else {
-                    //str += (rec.PartialResult());
+                    str += (rec.PartialResult());
                 }
             }
         }
@@ -50,14 +50,7 @@ public class VoskInit
                 for (int i = 0, n = 0; i < fbuffer.Length; i++, n+=2) {
                     fbuffer[i] = (short)(buffer[n] | buffer[n+1] << 8);
                 }
-                if (rec.AcceptWaveform(fbuffer, fbuffer.Length))
-                {
-                    //str += (rec.Result());
-                }
-                else
-                {
-                    //str += (rec.PartialResult());
-                }
+                rec.AcceptWaveform(fbuffer, fbuffer.Length);
             }
         }
         str += "DemoFloats: " + rec.FinalResult().Substring(13) + "\n";

@@ -53,8 +53,10 @@ namespace ServerRec
             if (maskedTextIP.Text.Equals("") || maskedTextPort.Text.Equals(""))
                 MessageBox.Show("В поля с IP и\\или портом не были введены значения!", "Information!",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else if (modelNameLabel.Text.Equals(""))
-                MessageBox.Show("Выберите необходимую модель!", "Information!",
+            else if (modelNameLabel.Text.Equals("") || 
+                !System.IO.File.Exists(modelNameLabel.Text))
+                MessageBox.Show("Выберите необходимую модель! " +
+                    "Она должна располагаться в папке \"models\" где располагается исполняемый файл.", "Information!",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
             {
@@ -74,6 +76,10 @@ namespace ServerRec
                     richTextBox.AppendText("<- " + DateTime.Now.ToLocalTime() + 
                         ": " + "Сервер запущен. Выполняется прослушивание..." + "\n");
                     run = true;
+                    groupBoxModel.Enabled = false;
+                    groupBoxIP.Enabled = false;
+                    labelNameAss.Enabled = false;
+                    textBoxName.Enabled = false;
                 }
                 else
                 {
@@ -82,6 +88,10 @@ namespace ServerRec
                         ": " + "Сервер остановлен!" + "\n");
                     run = false;
                     buttonRun.Enabled = false;
+                    groupBoxModel.Enabled = true;
+                    groupBoxIP.Enabled = true;
+                    labelNameAss.Enabled = true;
+                    textBoxName.Enabled = true;
                 }
                 richTextBox.ScrollToCaret();
             }            
@@ -130,7 +140,7 @@ namespace ServerRec
                 rb16.Enabled = true;
                 rb24.Enabled = true;
                 rb32.Enabled = true;
-                label3.Enabled = true;
+                labelModelAdd.Enabled = true;
             }
             else
             {
@@ -140,7 +150,7 @@ namespace ServerRec
                 rb16.Enabled = false;
                 rb24.Enabled = false;
                 rb32.Enabled = false;
-                label3.Enabled = false;
+                labelModelAdd.Enabled = false;
             }
         }
 
