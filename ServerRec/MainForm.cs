@@ -29,19 +29,16 @@ namespace ServerRec
                 maskedTextIP, maskedTextPort, textBoxName, modelNameLabel);
             config.GetCfg(out cfg);
 
-            if (rb8.Checked) rate = 8000.0f;
-            else if (rb24.Checked) rate = 24000.0f;
-            else if (rb32.Checked) rate = 32000.0f;
-            else rate = 16000.0f;
+            if (rb8.Checked) rate = 32000.0f;
+            else if (rb24.Checked) rate = 128000.0f;
+            else if (rb32.Checked) rate = 256000.0f;
+            else rate = 64000.0f;
 
             if (cfg)
             {
                 ip = maskedTextIP.Text;
                 port = Convert.ToInt32(maskedTextPort.Text);
                 setSocket = new SetupSocket(richTextBox, ip, port);
-
-                threadSocket = new Thread(setSocket.RunSocket);
-                threadSocket.IsBackground = true;
             }
         }
 
@@ -54,13 +51,15 @@ namespace ServerRec
                 MessageBox.Show("В поля с IP и\\или портом не были введены значения!", "Information!",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
             else if (modelNameLabel.Text.Equals("") || 
-                !System.IO.File.Exists(modelNameLabel.Text))
+                System.IO.File.Exists(modelNameLabel.Text))
                 MessageBox.Show("Выберите необходимую модель! " +
                     "Она должна располагаться в папке \"models\" где располагается исполняемый файл.", "Information!",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
             {
                 config.SetCfg();
+                threadSocket = new Thread(setSocket.RunSocket);
+                threadSocket.IsBackground = true;
                 if (!run)
                 {
                     if (checkBoxModel.Checked)
@@ -83,6 +82,7 @@ namespace ServerRec
                 }
                 else
                 {
+                    threadSocket.Abort();
                     buttonRun.Text = "Старт";
                     richTextBox.AppendText("<- " + DateTime.Now.ToLocalTime() + 
                         ": " + "Сервер остановлен!" + "\n");
@@ -156,7 +156,7 @@ namespace ServerRec
 
         private void testButton_Click(object sender, EventArgs e)
         {
-            voskInit.Run();
+            voskInit.Run("test.wav");
             VoskInit.str = "";
         }
     }

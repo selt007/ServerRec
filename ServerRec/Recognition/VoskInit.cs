@@ -1,3 +1,4 @@
+using ServerRec.Recognition;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -6,7 +7,7 @@ using Vosk;
 public class VoskInit
 {
     RichTextBox rtb;
-    string nameAudio = "temp\\test.m4a";
+    string nameAudio;
     string nameModel = "models\\";
     Model model;
     float rate = ServerRec.MainForm.rate;
@@ -18,7 +19,7 @@ public class VoskInit
         this.nameModel += nameModel;
     }
 
-    public void DemoBytes(Model model)
+    private void DemoBytes(Model model)
     {
         // Demo byte buffer
         VoskRecognizer rec = new VoskRecognizer(model, rate);
@@ -38,7 +39,7 @@ public class VoskInit
         str += "DemoBytes: " + rec.FinalResult().Substring(13) + "\n";
     }
 
-    public void DemoFloats(Model model)
+    private void DemoFloats(Model model)
     {
         // Demo float array
         VoskRecognizer rec = new VoskRecognizer(model, rate);
@@ -56,7 +57,7 @@ public class VoskInit
         str += "DemoFloats: " + rec.FinalResult().Substring(13) + "\n";
     }
 
-    public void DemoSpeaker(Model model)
+    private void DemoSpeaker(Model model)
     {
         // Output speakers
         SpkModel spkModel = new SpkModel("model-spk");
@@ -93,26 +94,29 @@ public class VoskInit
                             rtb.AppendText("<- " + DateTime.Now.ToLocalTime() +
                                 ": Модель загружена.\n");
                             rtb.ScrollToCaret();
+                            //RecordMic rm = new RecordMic(rtb);
+                            //rm.RecordAudio(2);
                         }));
     }
 
-    public void Run()
+    public void Run(string audio)
     {
+        nameAudio = "temp\\" + audio;
         if (Directory.Exists(nameModel))
         {
             //DemoBytes(model);
             DemoFloats(model);
             //DemoSpeaker(model);
 
-            rtb.AppendText("<- " + DateTime.Now.ToLocalTime() + ": " +
-                                str.Replace("}","").Replace("\n", "") + "\n");
+            rtb.AppendText("=> " + DateTime.Now.ToLocalTime() + ": " +
+                                str.Replace("}", "").Replace("\n", "") + "\n");
             rtb.ScrollToCaret();
         }
         else
         {
             MessageBox.Show("Не найдена модель для распознавания речи. " +
                 "Эта функция не будет функционировать." +
-                " Остальной функционал будет работать в штатном порядке.", 
+                " Остальной функционал будет работать в штатном порядке.",
                 "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }

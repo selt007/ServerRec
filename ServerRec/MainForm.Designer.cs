@@ -45,12 +45,12 @@ namespace ServerRec
             this.modelExploreButton = new System.Windows.Forms.Button();
             this.modelNameLabel = new System.Windows.Forms.Label();
             this.groupBoxModel = new System.Windows.Forms.GroupBox();
+            this.labelModelAdd = new System.Windows.Forms.Label();
             this.rb32 = new System.Windows.Forms.RadioButton();
             this.rb24 = new System.Windows.Forms.RadioButton();
             this.rb16 = new System.Windows.Forms.RadioButton();
             this.rb8 = new System.Windows.Forms.RadioButton();
             this.checkBoxModel = new System.Windows.Forms.CheckBox();
-            this.labelModelAdd = new System.Windows.Forms.Label();
             this.boxLog.SuspendLayout();
             this.groupBoxIP.SuspendLayout();
             this.groupBoxModel.SuspendLayout();
@@ -226,6 +226,17 @@ namespace ServerRec
             this.groupBoxModel.TabStop = false;
             this.groupBoxModel.Text = "Тип работы:";
             // 
+            // labelModelAdd
+            // 
+            this.labelModelAdd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelModelAdd.AutoSize = true;
+            this.labelModelAdd.Location = new System.Drawing.Point(4, 42);
+            this.labelModelAdd.Name = "labelModelAdd";
+            this.labelModelAdd.Size = new System.Drawing.Size(76, 13);
+            this.labelModelAdd.TabIndex = 19;
+            this.labelModelAdd.Text = "Имя модели: ";
+            // 
             // rb32
             // 
             this.rb32.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -233,9 +244,9 @@ namespace ServerRec
             this.rb32.AutoSize = true;
             this.rb32.Location = new System.Drawing.Point(157, 92);
             this.rb32.Name = "rb32";
-            this.rb32.Size = new System.Drawing.Size(51, 17);
+            this.rb32.Size = new System.Drawing.Size(49, 17);
             this.rb32.TabIndex = 18;
-            this.rb32.Text = "32 bit";
+            this.rb32.Text = "256k";
             this.rb32.UseVisualStyleBackColor = true;
             // 
             // rb24
@@ -245,9 +256,9 @@ namespace ServerRec
             this.rb24.AutoSize = true;
             this.rb24.Location = new System.Drawing.Point(106, 92);
             this.rb24.Name = "rb24";
-            this.rb24.Size = new System.Drawing.Size(51, 17);
+            this.rb24.Size = new System.Drawing.Size(49, 17);
             this.rb24.TabIndex = 17;
-            this.rb24.Text = "24 bit";
+            this.rb24.Text = "128k";
             this.rb24.UseVisualStyleBackColor = true;
             // 
             // rb16
@@ -258,10 +269,10 @@ namespace ServerRec
             this.rb16.Checked = true;
             this.rb16.Location = new System.Drawing.Point(54, 92);
             this.rb16.Name = "rb16";
-            this.rb16.Size = new System.Drawing.Size(51, 17);
+            this.rb16.Size = new System.Drawing.Size(43, 17);
             this.rb16.TabIndex = 16;
             this.rb16.TabStop = true;
-            this.rb16.Text = "16 bit";
+            this.rb16.Text = "64k";
             this.rb16.UseVisualStyleBackColor = true;
             // 
             // rb8
@@ -271,9 +282,9 @@ namespace ServerRec
             this.rb8.AutoSize = true;
             this.rb8.Location = new System.Drawing.Point(7, 92);
             this.rb8.Name = "rb8";
-            this.rb8.Size = new System.Drawing.Size(45, 17);
+            this.rb8.Size = new System.Drawing.Size(43, 17);
             this.rb8.TabIndex = 15;
-            this.rb8.Text = "8 bit";
+            this.rb8.Text = "32k";
             this.rb8.UseVisualStyleBackColor = true;
             // 
             // checkBoxModel
@@ -290,17 +301,6 @@ namespace ServerRec
             this.checkBoxModel.Text = "Использовать локальную модель";
             this.checkBoxModel.UseVisualStyleBackColor = true;
             this.checkBoxModel.CheckedChanged += new System.EventHandler(this.checkBoxModel_CheckedChanged);
-            // 
-            // labelModelAdd
-            // 
-            this.labelModelAdd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelModelAdd.AutoSize = true;
-            this.labelModelAdd.Location = new System.Drawing.Point(4, 42);
-            this.labelModelAdd.Name = "labelModelAdd";
-            this.labelModelAdd.Size = new System.Drawing.Size(76, 13);
-            this.labelModelAdd.TabIndex = 19;
-            this.labelModelAdd.Text = "Имя модели: ";
             // 
             // MainForm
             // 
