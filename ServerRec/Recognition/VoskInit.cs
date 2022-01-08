@@ -28,11 +28,7 @@ public class VoskInit
             byte[] buffer = new byte[4096];
             int bytesRead;
             while((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0) {
-                if (rec.AcceptWaveform(buffer, bytesRead)) {
-                    str += (rec.Result());
-                } else {
-                    str += (rec.PartialResult());
-                }
+                rec.AcceptWaveform(buffer, bytesRead);
             }
         }
         str += "DemoBytes: " + rec.FinalResult() + "\n";
@@ -53,8 +49,8 @@ public class VoskInit
                 rec.AcceptWaveform(fbuffer, fbuffer.Length);
             }
         }
-        str += "DemoFloats: " + rec.FinalResult() + "\n";
-        //str += rec.FinalResult() + "\n";
+        //str += "DemoFloats: " + rec.FinalResult() + "\n";
+        str += rec.FinalResult() + "\n";
     }
 
     private void DemoSpeaker(Model model)

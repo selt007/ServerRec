@@ -36,7 +36,6 @@ namespace ServerRec
             {
                 ip = maskedTextIP.Text;
                 port = Convert.ToInt32(maskedTextPort.Text);
-                setSocket = new SetupSocket(richTextBox, ip, port, modelNameLabel.Text);
             }
         }
 
@@ -56,6 +55,7 @@ namespace ServerRec
             else
             {
                 config.SetCfg();
+                setSocket = new SetupSocket(richTextBox, ip, port, modelNameLabel.Text);
                 threadSocket = new Thread(setSocket.RunSocket);
                 threadSocket.IsBackground = true;
                 if (!run)
@@ -154,8 +154,7 @@ namespace ServerRec
 
         private void testButton_Click(object sender, EventArgs e)
         {
-            //voskInit.Run(tempFile);
-            VoskInit.str = "";
+            
         }
     }
 }

@@ -4,6 +4,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms;
+using NAudio.Utils;
+using NAudio.Wave;
 using ServerRec.Network;
 
 namespace ServerRec
@@ -44,7 +46,7 @@ namespace ServerRec
                     StringBuilder builder = new StringBuilder();
                     int bytes = 0;
                     byte[] data = new byte[2048];
-                    byte[] dataall = new byte[16252];
+                    byte[] dataall = new byte[8000000];
                     int bytesall = 0;
                     do
                     {
@@ -54,22 +56,35 @@ namespace ServerRec
                     }
                     while (handler.Available > 0);
 
-                    using (var acceptFile = new FileStream(file, FileMode.Create))
+                    /*using (var acceptFile = new FileStream(file, FileMode.Create))
                     {
-                        if (bytesall != 2920) {
-                            acceptFile.Write(dataall, 0, bytesall);
-                            builder.Append("Голос сохранен, размер " + bytesall + " байт.\n");
-                            
-                            rtb.BeginInvoke(
-                                new Action(() =>
-                                {
-                                    rtb.AppendText("=> " + DateTime.Now.ToLocalTime() +
-                                        ": " + builder.ToString());
-                                    RequestAssistant ra = new RequestAssistant(rtb.Lines);
-                                    ra.Get(rtb);
-                                    rtb.ScrollToCaret();
-                                }));
-                        }
+                        acceptFile.Write(dataall, 0, bytesall);
+                        builder.Append("Голос сохранен, размер " + bytesall + " байт.\n");
+
+                        rtb.BeginInvoke(
+                            new Action(() =>
+                            {
+                                rtb.AppendText("=> " + DateTime.Now.ToLocalTime() +
+                                    ": " + builder.ToString());
+                                RequestAssistant ra = new RequestAssistant(rtb.Lines);
+                                ra.Get(rtb);
+                                rtb.ScrollToCaret();
+                            }));
+                    }*/
+                    using (var acceptFile = new WaveFileWriter(file, new WaveFormat(44100, 16, 1)))
+                    {
+                        acceptFile.Write(dataall, 1, bytesall);
+                        builder.Append("Голос сохранен, размер " + bytesall + " байт.\n");
+
+                        rtb.BeginInvoke(
+                            new Action(() =>
+                            {
+                                rtb.AppendText("=> " + DateTime.Now.ToLocalTime() +
+                                    ": " + builder.ToString());
+                                RequestAssistant ra = new RequestAssistant(rtb.Lines);
+                                ra.Get(rtb);
+                                rtb.ScrollToCaret();
+                            }));
                     }
                     voskInit.Run(file);
                     handler.Shutdown(SocketShutdown.Both);
