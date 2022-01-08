@@ -1,4 +1,3 @@
-using ServerRec.Recognition;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -36,7 +35,7 @@ public class VoskInit
                 }
             }
         }
-        str += "DemoBytes: " + rec.FinalResult().Substring(13) + "\n";
+        str += "DemoBytes: " + rec.FinalResult() + "\n";
     }
 
     private void DemoFloats(Model model)
@@ -54,7 +53,8 @@ public class VoskInit
                 rec.AcceptWaveform(fbuffer, fbuffer.Length);
             }
         }
-        str += "DemoFloats: " + rec.FinalResult().Substring(13) + "\n";
+        str += "DemoFloats: " + rec.FinalResult() + "\n";
+        //str += rec.FinalResult() + "\n";
     }
 
     private void DemoSpeaker(Model model)
@@ -101,16 +101,23 @@ public class VoskInit
 
     public void Run(string audio)
     {
-        nameAudio = "temp\\" + audio;
+        nameAudio = audio;
         if (Directory.Exists(nameModel))
         {
             //DemoBytes(model);
             DemoFloats(model);
             //DemoSpeaker(model);
 
-            rtb.AppendText("=> " + DateTime.Now.ToLocalTime() + ": " +
-                                str.Replace("}", "").Replace("\n", "") + "\n");
-            rtb.ScrollToCaret();
+            rtb.BeginInvoke(
+                        new Action(() => {
+                            rtb.AppendText("=> " + DateTime.Now.ToLocalTime() + ": " +
+                                str.Replace("}", "").Replace("\n", "")
+                                .Replace("{\"text\": ", "")
+                                .Replace("{  \"text\" : ", "") + "\n");
+                            rtb.ScrollToCaret();
+                            str = "";
+                        }));
+
         }
         else
         {

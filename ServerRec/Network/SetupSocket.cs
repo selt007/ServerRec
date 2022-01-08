@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -9,22 +10,29 @@ namespace ServerRec
 {
     class SetupSocket
     {
+        public static Socket listenSocket;
+        string file = "temp\\temp.wav";
+        VoskInit voskInit;
+        ErrorLoging errLog;
         RichTextBox rtb;
         string ip;
         int port;
 
-        public SetupSocket(RichTextBox rtb, string ip, int port)
+        public SetupSocket(RichTextBox rtb, string ip, int port, string model)
         {
             this.rtb = rtb;
             this.ip = ip;
             this.port = port;
+            errLog = new ErrorLoging();
+            voskInit = new VoskInit(rtb, model);
         }
 
         public void RunSocket()
         {
-            //int lineCount;
+            voskInit.Init();
+
             IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(ip), port);
-            Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
             {
                 listenSocket.Bind(ipPoint);
@@ -34,38 +42,50 @@ namespace ServerRec
                 {
                     Socket handler = listenSocket.Accept();
                     StringBuilder builder = new StringBuilder();
-                    int bytes = 0; 
-                    byte[] data = new byte[256];
+                    int bytes = 0;
+                    byte[] data = new byte[2048];
+                    byte[] dataall = new byte[16252];
+                    int bytesall = 0;
                     do
                     {
-                        bytes = handler.Receive(data);
-                        builder.Append(Encoding.UTF8.GetString(data));
+                        bytes = handler.Receive(dataall);
+                        bytesall = bytes;
+                        //builder.Append(Encoding.UTF8.GetString(data));
                     }
                     while (handler.Available > 0);
 
-                    rtb.BeginInvoke(
-                        new Action(() => {
-                            rtb.AppendText("=> " + DateTime.Now.ToLocalTime() + 
-                                ": " + builder.ToString());
-                            RequestAssistant ra = new RequestAssistant(rtb.Lines);
-                            ra.Get(rtb);                            
-                            rtb.ScrollToCaret();
-                        }));
-
+                    using (var acceptFile = new FileStream(file, FileMode.Create))
+                    {
+                        if (bytesall != 2920) {
+                            acceptFile.Write(dataall, 0, bytesall);
+                            builder.Append("Голос сохранен, размер " + bytesall + " байт.\n");
+                            
+                            rtb.BeginInvoke(
+                                new Action(() =>
+                                {
+                                    rtb.AppendText("=> " + DateTime.Now.ToLocalTime() +
+                                        ": " + builder.ToString());
+                                    RequestAssistant ra = new RequestAssistant(rtb.Lines);
+                                    ra.Get(rtb);
+                                    rtb.ScrollToCaret();
+                                }));
+                        }
+                    }
+                    voskInit.Run(file);
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
                 }
             }
             catch (Exception ex)
             {
-                MainForm.errLog.AppendLog(ex.Message);
+                errLog.AppendLog(ex.Message);
                 rtb.BeginInvoke(
                     new Action(() => {
                         rtb.Text += "<- " + 
                         "Ошибка!.. Запись произведена в error-log.txt!" + "\n";
                     }));
-                MessageBox.Show(ex.Message, "Error!",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show(ex.Message, "Error!",
+                    //MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

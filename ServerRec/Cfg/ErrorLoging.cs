@@ -12,10 +12,19 @@ namespace ServerRec
         {
             try
             {
-                StreamReader sr = new StreamReader(path);
-                using (StreamWriter sw = new StreamWriter(path, false, System.Text.Encoding.Default))
+                string read = null;
+                if (!File.Exists(path))
+                    File.Create(path).Close();
+
+                using (StreamReader sr = new StreamReader(path))
                 {
-                    sw.WriteLine(sr.ReadToEnd() + "\n" + errorStr);
+                    read = sr.ReadToEnd();
+                }
+
+                using (StreamWriter sw = new StreamWriter(path, false, System.Text.Encoding.UTF8))
+                {
+                    sw.WriteLine("=> " + DateTime.Now.ToLocalTime() +
+                                ": " + errorStr + "\n" + read);
                 }
             }
             catch (Exception ex)

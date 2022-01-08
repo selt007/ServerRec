@@ -10,12 +10,10 @@ namespace ServerRec
         public static float rate;
         SetupSocket setSocket;
         Thread threadSocket;
-        Thread threadInit;
-        VoskInit voskInit;
         static Config config;
         static int port;
         static string ip;
-        bool run = false;
+        public static bool run = false;
         bool log = false;
         bool cfg;
 
@@ -38,7 +36,7 @@ namespace ServerRec
             {
                 ip = maskedTextIP.Text;
                 port = Convert.ToInt32(maskedTextPort.Text);
-                setSocket = new SetupSocket(richTextBox, ip, port);
+                setSocket = new SetupSocket(richTextBox, ip, port, modelNameLabel.Text);
             }
         }
 
@@ -62,19 +60,12 @@ namespace ServerRec
                 threadSocket.IsBackground = true;
                 if (!run)
                 {
-                    if (checkBoxModel.Checked)
-                    {
-                        voskInit = new VoskInit(richTextBox, modelNameLabel.Text);
-                        threadInit = new Thread(voskInit.Init);
-                        threadInit.IsBackground = true;
-                        threadInit.Start();
-                    }
-
                     threadSocket.Start();
                     buttonRun.Text = "Стоп";
                     richTextBox.AppendText("<- " + DateTime.Now.ToLocalTime() + 
                         ": " + "Сервер запущен. Выполняется прослушивание..." + "\n");
                     run = true;
+
                     groupBoxModel.Enabled = false;
                     groupBoxIP.Enabled = false;
                     labelNameAss.Enabled = false;
@@ -82,16 +73,23 @@ namespace ServerRec
                 }
                 else
                 {
-                    threadSocket.Abort();
-                    buttonRun.Text = "Старт";
+                    threadSocket.Abort(new Action(() =>
+                    {
+                        SetupSocket.listenSocket.Shutdown(System.Net.Sockets.SocketShutdown.Both);
+                        SetupSocket.listenSocket.Close();
+                    }));
                     richTextBox.AppendText("<- " + DateTime.Now.ToLocalTime() + 
                         ": " + "Сервер остановлен!" + "\n");
                     run = false;
-                    buttonRun.Enabled = false;
+
+                    buttonRun.Text = "Старт";
                     groupBoxModel.Enabled = true;
                     groupBoxIP.Enabled = true;
                     labelNameAss.Enabled = true;
                     textBoxName.Enabled = true;
+
+                    threadSocket = null;
+                    //buttonRun.Enabled = false;
                 }
                 richTextBox.ScrollToCaret();
             }            
@@ -156,7 +154,7 @@ namespace ServerRec
 
         private void testButton_Click(object sender, EventArgs e)
         {
-            voskInit.Run("test.wav");
+            //voskInit.Run(tempFile);
             VoskInit.str = "";
         }
     }
