@@ -100,7 +100,7 @@ public class VoskInit
         nameAudio = audio;
         if (Directory.Exists(nameModel))
         {
-            //DemoBytes(model);
+            DemoBytes(model);
             DemoFloats(model);
             //DemoSpeaker(model);
 
