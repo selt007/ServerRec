@@ -8,15 +8,16 @@ namespace ServerRec
     {
         string path = Application.StartupPath + "\\config.cfg";
         public static string nameAssist;
-        MaskedTextBox tb1, tb2;
+        MaskedTextBox tb1, tb2, tb4;
         TextBox tb3;
         Label model;
 
-        public Config(MaskedTextBox tb1, MaskedTextBox tb2, TextBox tb3, Label model)
+        public Config(MaskedTextBox tb1, MaskedTextBox tb2, TextBox tb3, Label model, MaskedTextBox tb4)
         {
             this.tb1 = tb1;
             this.tb2 = tb2;
             this.tb3 = tb3;
+            this.tb4 = tb4;
             this.model = model;
 
             if (!File.Exists("config.cfg"))
@@ -36,7 +37,7 @@ namespace ServerRec
                 using (StreamWriter sw = new StreamWriter(path, false, System.Text.Encoding.UTF8))
                 {
                     sw.WriteLine(tb1.Text + "\n" + tb2.Text + "\n" 
-                        + tb3.Text.ToLower() + "\n" + model.Text.Replace("\r", ""));
+                        + tb3.Text.ToLower()+ "\n" + model.Text.Replace("\r", "") + "\n" + tb4.Text);
                     nameAssist = tb3.Text;
                 }
             }
@@ -63,6 +64,7 @@ namespace ServerRec
                         tb3.Text = nameAssist =
                             str[2].Replace("\r", "");
                         model.Text = str[3].Replace("\r", "");
+                        tb4.Text = str[4].Replace("\r", "");
                         cfg = true;
                     }
                 }

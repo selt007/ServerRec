@@ -51,6 +51,8 @@ namespace ServerRec
             this.rb16 = new System.Windows.Forms.RadioButton();
             this.rb8 = new System.Windows.Forms.RadioButton();
             this.checkBoxModel = new System.Windows.Forms.CheckBox();
+            this.mTBIPContr = new System.Windows.Forms.MaskedTextBox();
+            this.labelIPContr = new System.Windows.Forms.Label();
             this.boxLog.SuspendLayout();
             this.groupBoxIP.SuspendLayout();
             this.groupBoxModel.SuspendLayout();
@@ -63,14 +65,14 @@ namespace ServerRec
             this.richTextBox.Location = new System.Drawing.Point(6, 19);
             this.richTextBox.Name = "richTextBox";
             this.richTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBox.Size = new System.Drawing.Size(237, 187);
+            this.richTextBox.Size = new System.Drawing.Size(237, 218);
             this.richTextBox.TabIndex = 0;
             this.richTextBox.Text = "";
             // 
             // buttonLog
             // 
             this.buttonLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonLog.Location = new System.Drawing.Point(148, 224);
+            this.buttonLog.Location = new System.Drawing.Point(148, 255);
             this.buttonLog.Name = "buttonLog";
             this.buttonLog.Size = new System.Drawing.Size(75, 29);
             this.buttonLog.TabIndex = 2;
@@ -82,7 +84,7 @@ namespace ServerRec
             // 
             this.buttonRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonRun.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonRun.Location = new System.Drawing.Point(12, 224);
+            this.buttonRun.Location = new System.Drawing.Point(12, 255);
             this.buttonRun.Name = "buttonRun";
             this.buttonRun.Size = new System.Drawing.Size(130, 29);
             this.buttonRun.TabIndex = 3;
@@ -100,7 +102,7 @@ namespace ServerRec
             this.boxLog.Controls.Add(this.richTextBox);
             this.boxLog.Location = new System.Drawing.Point(241, 12);
             this.boxLog.Name = "boxLog";
-            this.boxLog.Size = new System.Drawing.Size(249, 241);
+            this.boxLog.Size = new System.Drawing.Size(249, 272);
             this.boxLog.TabIndex = 4;
             this.boxLog.TabStop = false;
             this.boxLog.Text = "Log:";
@@ -108,7 +110,7 @@ namespace ServerRec
             // testButton
             // 
             this.testButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.testButton.Location = new System.Drawing.Point(6, 212);
+            this.testButton.Location = new System.Drawing.Point(6, 243);
             this.testButton.Name = "testButton";
             this.testButton.Size = new System.Drawing.Size(112, 23);
             this.testButton.TabIndex = 2;
@@ -119,7 +121,7 @@ namespace ServerRec
             // buttonError
             // 
             this.buttonError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonError.Location = new System.Drawing.Point(131, 212);
+            this.buttonError.Location = new System.Drawing.Point(131, 243);
             this.buttonError.Name = "buttonError";
             this.buttonError.Size = new System.Drawing.Size(112, 23);
             this.buttonError.TabIndex = 1;
@@ -147,7 +149,7 @@ namespace ServerRec
             this.groupBoxIP.Size = new System.Drawing.Size(211, 50);
             this.groupBoxIP.TabIndex = 9;
             this.groupBoxIP.TabStop = false;
-            this.groupBoxIP.Text = "IP-адрес и порт ПК:";
+            this.groupBoxIP.Text = "IP-адрес и порт сервера:";
             // 
             // maskedTextPort
             // 
@@ -210,7 +212,6 @@ namespace ServerRec
             // 
             // groupBoxModel
             // 
-            this.groupBoxModel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.groupBoxModel.Controls.Add(this.labelModelAdd);
             this.groupBoxModel.Controls.Add(this.rb32);
             this.groupBoxModel.Controls.Add(this.rb24);
@@ -302,11 +303,30 @@ namespace ServerRec
             this.checkBoxModel.UseVisualStyleBackColor = true;
             this.checkBoxModel.CheckedChanged += new System.EventHandler(this.checkBoxModel_CheckedChanged);
             // 
+            // mTBIPContr
+            // 
+            this.mTBIPContr.Location = new System.Drawing.Point(110, 215);
+            this.mTBIPContr.Name = "mTBIPContr";
+            this.mTBIPContr.PromptChar = ' ';
+            this.mTBIPContr.Size = new System.Drawing.Size(113, 20);
+            this.mTBIPContr.TabIndex = 11;
+            // 
+            // labelIPContr
+            // 
+            this.labelIPContr.AutoSize = true;
+            this.labelIPContr.Location = new System.Drawing.Point(16, 218);
+            this.labelIPContr.Name = "labelIPContr";
+            this.labelIPContr.Size = new System.Drawing.Size(88, 13);
+            this.labelIPContr.TabIndex = 15;
+            this.labelIPContr.Text = "IP контроллера:";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 265);
+            this.ClientSize = new System.Drawing.Size(502, 296);
+            this.Controls.Add(this.labelIPContr);
+            this.Controls.Add(this.mTBIPContr);
             this.Controls.Add(this.groupBoxModel);
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.labelNameAss);
@@ -354,6 +374,8 @@ namespace ServerRec
         private System.Windows.Forms.RadioButton rb16;
         private System.Windows.Forms.RadioButton rb8;
         private System.Windows.Forms.Label labelModelAdd;
+        private System.Windows.Forms.MaskedTextBox mTBIPContr;
+        private System.Windows.Forms.Label labelIPContr;
     }
 }
 

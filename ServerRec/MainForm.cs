@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Windows.Forms;
 using System;
+using ServerRec.Network;
 
 namespace ServerRec
 {
@@ -13,6 +14,7 @@ namespace ServerRec
         static Config config;
         static int port;
         static string ip;
+        static string ipContr;
         public static bool run = false;
         bool log = false;
         bool cfg;
@@ -24,10 +26,10 @@ namespace ServerRec
             errLog = new ErrorLoging();
 
             config = new Config(
-                maskedTextIP, maskedTextPort, textBoxName, modelNameLabel);
+                maskedTextIP, maskedTextPort, textBoxName, modelNameLabel, mTBIPContr);
             config.GetCfg(out cfg);
 
-            if (rb8.Checked) rate = 32000.0f;
+            if (rb8.Checked) rate = 14000.0f;
             else if (rb24.Checked) rate = 128000.0f;
             else if (rb32.Checked) rate = 256000.0f;
             else rate = 64000.0f;
@@ -36,6 +38,7 @@ namespace ServerRec
             {
                 ip = maskedTextIP.Text;
                 port = Convert.ToInt32(maskedTextPort.Text);
+                ipContr = mTBIPContr.Text;
             }
         }
 
@@ -154,7 +157,8 @@ namespace ServerRec
 
         private void testButton_Click(object sender, EventArgs e)
         {
-            
+            PhysicalController pc = new PhysicalController(ipContr, "2");
+            pc.SendWeb();
         }
     }
 }
