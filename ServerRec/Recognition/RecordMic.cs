@@ -1,119 +1,128 @@
-﻿using NAudio.Wave;
-using System;
-using System.Timers;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
+using System.Threading;
+using System.Net;
+using System.Net.Sockets;
+using NAudio.Wave;
+using NAudio.CoreAudioApi;
 
 namespace ServerRec.Recognition
 {
     class RecordMic
     {
-        /// <summary>
-        /// Timer used to start/stop recording
-        /// </summary>
-        private System.Timers.Timer _timer;
+        //Подключены ли мы
+        private bool connected;
+        //сокет отправитель
+        Socket client;
+        //поток для нашей речи
+        WaveIn input;
+        //поток для речи собеседника
+        WaveOut output;
+        //буфферный поток для передачи через сеть
+        BufferedWaveProvider bufferStream;
+        //поток для прослушивания входящих сообщений
+        Thread in_thread;
+        //сокет для приема (протокол UDP)
+        Socket listeningSocket;
+        VoskInit vosk;
 
-        private WaveInEvent _waveSource;
-        private WaveFileWriter _waveWriter;
-        private string _tempFilename;
-        public event EventHandler RecordingFinished;
-        private RichTextBox rtb;
-
-        public RecordMic(RichTextBox rtb)
+        public RecordMic(RichTextBox rtb, string nameModel)
         {
-            this.rtb = rtb;
+            //создаем поток для записи нашей речи
+            input = new WaveIn();
+            //определяем его формат - частота дискретизации 8000 Гц, ширина сэмпла - 16 бит, 1 канал - моно
+            input.WaveFormat = new WaveFormat(8000, 16, 1);
+            //добавляем код обработки нашего голоса, поступающего на микрофон
+            input.DataAvailable += Voice_Input;
+            //создаем поток для прослушивания входящего звука
+            output = new WaveOut();
+            //создаем поток для буферного потока и определяем у него такой же формат как и потока с микрофона
+            bufferStream = new BufferedWaveProvider(new WaveFormat(8000, 16, 1));
+            //привязываем поток входящего звука к буферному потоку
+            output.Init(bufferStream);
+            //сокет для отправки звука
+            client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            connected = true;
+            listeningSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+            //создаем поток для прослушивания
+            in_thread = new Thread(new ThreadStart(Listening));
+            //запускаем его
+            in_thread.Start();
+            vosk = new VoskInit(rtb, nameModel);
         }
 
-        /// <summary>
-        /// Record from the mic
-        /// </summary>
-        /// <param name="seconds">Duration in seconds</param>
-        /// <param name="filename">Output file name</param>
-        public void RecordAudio(int seconds)
+        //Обработка нашего голоса
+        private void Voice_Input(object sender, WaveInEventArgs e)
         {
-            /*if the filename is empty, throw an exception*/
-            //if (string.IsNullOrEmpty(filename))
-            //    throw new ArgumentNullException("The file name cannot be empty.");
-
-            /*if the recording duration is not > 0, throw an exception*/
-            if (seconds <= 0)
-                throw new ArgumentNullException("The recording duration must be a positive integer.");
-
-            _tempFilename = "temp\\temp.wav";
-
-            _waveSource = new WaveInEvent
+            try
             {
-                WaveFormat = new WaveFormat(44100, 1)
-            };
-
-            _waveSource.DataAvailable += DataAvailable;
-            _waveSource.RecordingStopped += RecordingStopped;
-            _waveWriter = new WaveFileWriter(_tempFilename, _waveSource.WaveFormat);
-
-            /*Start the timer that will mark the recording end*/
-            /*We multiply by 1000 because the Timer object works with milliseconds*/
-            _timer = new System.Timers.Timer(seconds * 1000);
-
-            /*if the timer elapses don't reset it, stop it instead*/
-            _timer.AutoReset = false;
-
-            /*Callback that will be executed once the recording duration has elapsed*/
-            _timer.Elapsed += StopRecording;
-
-            /*Start recording the audio*/
-            _waveSource.StartRecording();
-
-            /*Start the timer*/
-            _timer.Start();
-        }
-
-        /// <summary>
-        /// Callback that will be executed once the recording duration has elapsed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void StopRecording(object sender, ElapsedEventArgs e)
-        {
-            /*Stop the timer*/
-            _timer?.Stop();
-
-            /*Destroy/Dispose of the timer to free memory*/
-            _timer?.Dispose();
-
-            /*Stop the audio recording*/
-            _waveSource.StopRecording();
-
-            rtb.AppendText("<- " + DateTime.Now.ToLocalTime() +
-                                ": Запись произведена.\n");
-        }
-
-        /// <summary>
-        /// Callback executed when the recording is stopped
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void RecordingStopped(object sender, StoppedEventArgs e)
-        {
-            _waveSource.DataAvailable -= DataAvailable;
-            _waveSource.RecordingStopped -= RecordingStopped;
-            _waveSource?.Dispose();
-            _waveWriter?.Dispose();
-
-            /*Send notification that the recording is complete*/
-            RecordingFinished?.Invoke(this, null);
-        }
-
-        /// <summary>
-        /// Callback executed when new data is available
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DataAvailable(object sender, WaveInEventArgs e)
-        {
-            if (_waveWriter != null)
-            {
-                _waveWriter.Write(e.Buffer, 0, e.BytesRecorded);
-                _waveWriter.Flush();
+                //Подключаемся к удаленному адресу
+                IPEndPoint remote_point = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5555);
+                //посылаем байты, полученные с микрофона на удаленный адрес
+                client.SendTo(e.Buffer, remote_point);
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
+        }
+        //Прослушивание входящих подключений
+        private void Listening()
+        {
+            vosk.Init();
+            //Прослушиваем по адресу
+            IPEndPoint localIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5555);
+            listeningSocket.Bind(localIP);
+            //начинаем воспроизводить входящий звук
+            output.Play();
+            //адрес, с которого пришли данные
+            EndPoint remoteIp = new IPEndPoint(IPAddress.Any, 0);
+            //бесконечный цикл
+            while (connected == true)
+            {
+                try
+                {
+                    //промежуточный буфер
+                    byte[] data = new byte[65535];
+                    //получено данных
+                    int received = listeningSocket.ReceiveFrom(data, ref remoteIp);
+                    //добавляем данные в буфер, откуда output будет воспроизводить звук
+                    bufferStream.AddSamples(data, 0, received);
+                    vosk.Run(data, received);
+                }
+                catch (SocketException ex)
+                { }
+            }
+        }
+
+        public void Run()
+        {
+            vosk.Init();
+            input.StartRecording();
+        }
+
+        public void Dispose()
+        {
+            connected = false;
+            listeningSocket.Close();
+            listeningSocket.Dispose();
+
+            client.Close();
+            client.Dispose();
+            if (output != null)
+            {
+                output.Stop();
+                output.Dispose();
+                output = null;
+            }
+            if (input != null)
+            {
+                input.Dispose();
+                input = null;
+            }
+            bufferStream = null;
         }
     }
 }

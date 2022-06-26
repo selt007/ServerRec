@@ -1,3 +1,4 @@
+using NAudio.Wave;
 using ServerRec.Network;
 using System;
 using System.IO;
@@ -19,23 +20,17 @@ public class VoskInit
         this.nameModel += nameModel;
     }
 
-    private void DemoBytes(Model model)
+    private void RecFlow(Model model, byte[] data, int received)
     {
         // Demo byte buffer
         VoskRecognizer rec = new VoskRecognizer(model, rate);
         rec.SetMaxAlternatives(0);
         rec.SetWords(true);
-        using(Stream source = File.OpenRead(nameAudio)) {
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            while((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0) {
-                rec.AcceptWaveform(buffer, bytesRead);
-            }
-        }
+                rec.AcceptWaveform(data, received);
         str += "DemoBytes: " + rec.FinalResult() + "\n";
     }
 
-    private void DemoFloats(Model model)
+    private void RecFile(Model model)
     {
         // Demo float array
         VoskRecognizer rec = new VoskRecognizer(model, rate);
@@ -101,9 +96,35 @@ public class VoskInit
         nameAudio = audio;
         if (Directory.Exists(nameModel))
         {
-            //DemoBytes(model);
-            DemoFloats(model);
-            //DemoSpeaker(model);
+            RecFile(model);
+
+            rtb.BeginInvoke(
+                        new Action(() => {
+                            rtb.AppendText("=> " + DateTime.Now.ToLocalTime() + ": " +
+                                str.Replace("}", "").Replace("\n", "")
+                                .Replace("{\"text\": ", "")
+                                .Replace("{  \"text\" : ", "") + "\n");
+                            rtb.ScrollToCaret();
+                            str = "";
+                            new RequestAssistant(rtb.Lines).Get(rtb);
+                        }));
+
+        }
+        else
+        {
+            MessageBox.Show("Не найдена модель для распознавания речи. " +
+                "Эта функция не будет функционировать." +
+                " Остальной функционал будет работать в штатном порядке.",
+                "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+    }
+
+    public void Run(byte[] data, int received)
+    {
+        if (Directory.Exists(nameModel))
+        {
+            RecFlow(model, data, received);
 
             rtb.BeginInvoke(
                         new Action(() => {

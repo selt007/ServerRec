@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System;
 using ServerRec.Network;
+using ServerRec.Recognition;
 
 namespace ServerRec
 {
@@ -12,6 +13,7 @@ namespace ServerRec
         public static string ipContr;
         SetupSocket setSocket;
         Thread threadSocket;
+        RecordMic rec;
         static Config config;
         static int port;
         static string ip;
@@ -28,11 +30,12 @@ namespace ServerRec
             config = new Config(
                 maskedTextIP, maskedTextPort, textBoxName, modelNameLabel, mTBIPContr);
             config.GetCfg(out cfg);
+            //rec = new RecordMic(richTextBox, modelNameLabel.Text);
 
             if (rb8.Checked) rate = 8000.0f;
             else if (rb24.Checked) rate = 24000.0f;
             else if (rb32.Checked) rate = 32000.0f;
-            else rate = 16000.0f;            
+            else rate = 16000.0f; 
         }
 
         private void buttonLog_Click(object sender, EventArgs e) => 
@@ -77,6 +80,8 @@ namespace ServerRec
                     mTBIPContr.Enabled = false;
                     btStatus.BackColor = System.Drawing.Color.LightGray;
                     btStatus.Text = "работает...";
+
+                    //rec.Run();
                 }
                 else
                 {
@@ -101,6 +106,8 @@ namespace ServerRec
 
                     threadSocket = null;
                     //buttonRun.Enabled = false;
+
+                    //rec.Dispose();
                 }
                 richTextBox.ScrollToCaret();
             }            
@@ -166,6 +173,11 @@ namespace ServerRec
         private void testButton_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //rec.Dispose();
         }
     }
 }

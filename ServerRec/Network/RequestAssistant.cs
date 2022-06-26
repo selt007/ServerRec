@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerRec.Recognition;
+using System;
 using System.Windows.Forms;
 
 namespace ServerRec.Network
@@ -23,8 +24,10 @@ namespace ServerRec.Network
 
         public void Get(RichTextBox rtb)
         {
-            if ((prevStr.Equals(Config.nameAssist) && requestStr.Length > 2)
+            /*if ((prevStr.Equals(Config.nameAssist) && requestStr.Length > 2)
                                 || (requestStrWithName.Contains(Config.nameAssist) &&
+                                requestStrWithName.Replace(Config.nameAssist, "").Length > 1))*/
+            if ((requestStr.Length > 2) || (requestStrWithName.Contains(Config.nameAssist) &&
                                 requestStrWithName.Replace(Config.nameAssist, "").Length > 1))
             {
                 if (requestStr.Contains("найди в интернете") || 
@@ -35,15 +38,27 @@ namespace ServerRec.Network
                     requestStr.Contains("найти в заметках")) {
                     resultStr = "Вот что нашлось в заметках...";
                 }
+                else if (requestStr.Contains("привет") ||
+                    requestStr.Contains("здарова")) {
+                    resultStr = new AssistantAnswer().AnswHello();
+                }
                 else if (requestStr.Contains("включи свет") || 
                     requestStr.Contains("выключи свет")) {
                     controller.SendWeb("LED2");
-                    resultStr = "Готово!";
+                    resultStr = new AssistantAnswer().AnswReady();
+                }
+                else if (requestStr.Contains("как дела") || 
+                    requestStr.Contains("как сам") ||
+                    requestStr.Contains("как сама") ||
+                    requestStr.Contains("че кого")) {
+                    resultStr = new AssistantAnswer().AnswWhatsup();
                 }
                 else resultStr = "Не удалось выполнить запрос!";
-
-                rtb.AppendText("<- " + DateTime.Now.ToLocalTime() +
-                        ": " + resultStr);
+                try {
+                    new TextToSpeech(resultStr);
+                    rtb.AppendText("<- " + DateTime.Now.ToLocalTime() +
+                            ": " + resultStr + "\n");
+                } catch (Exception e) { MessageBox.Show(e.Message); }
             }
         }
     }

@@ -356,6 +356,7 @@ namespace ServerRec
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Assistant Server";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.boxLog.ResumeLayout(false);
             this.groupBoxIP.ResumeLayout(false);
             this.groupBoxIP.PerformLayout();
