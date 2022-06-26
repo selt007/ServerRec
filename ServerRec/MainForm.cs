@@ -9,12 +9,12 @@ namespace ServerRec
     {
         public static ErrorLoging errLog;
         public static float rate;
+        public static string ipContr;
         SetupSocket setSocket;
         Thread threadSocket;
         static Config config;
         static int port;
         static string ip;
-        static string ipContr;
         public static bool run = false;
         bool log = false;
         bool cfg;
@@ -29,17 +29,10 @@ namespace ServerRec
                 maskedTextIP, maskedTextPort, textBoxName, modelNameLabel, mTBIPContr);
             config.GetCfg(out cfg);
 
-            if (rb8.Checked) rate = 14000.0f;
-            else if (rb24.Checked) rate = 128000.0f;
-            else if (rb32.Checked) rate = 256000.0f;
-            else rate = 64000.0f;
-
-            if (cfg)
-            {
-                ip = maskedTextIP.Text;
-                port = Convert.ToInt32(maskedTextPort.Text);
-                ipContr = mTBIPContr.Text;
-            }
+            if (rb8.Checked) rate = 8000.0f;
+            else if (rb24.Checked) rate = 24000.0f;
+            else if (rb32.Checked) rate = 32000.0f;
+            else rate = 16000.0f;            
         }
 
         private void buttonLog_Click(object sender, EventArgs e) => 
@@ -47,6 +40,13 @@ namespace ServerRec
 
         private void buttonRun_Click(object sender, EventArgs e)
         {
+            if (cfg)
+            {
+                ip = maskedTextIP.Text;
+                port = Convert.ToInt32(maskedTextPort.Text);
+                ipContr = mTBIPContr.Text;
+            }
+
             if (maskedTextIP.Text.Equals("") || maskedTextPort.Text.Equals(""))
                 MessageBox.Show("В поля с IP и\\или портом не были введены значения!", "Information!",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -73,6 +73,10 @@ namespace ServerRec
                     groupBoxIP.Enabled = false;
                     labelNameAss.Enabled = false;
                     textBoxName.Enabled = false;
+                    labelIPContr.Enabled = false;
+                    mTBIPContr.Enabled = false;
+                    btStatus.BackColor = System.Drawing.Color.LightGray;
+                    btStatus.Text = "работает...";
                 }
                 else
                 {
@@ -90,6 +94,10 @@ namespace ServerRec
                     groupBoxIP.Enabled = true;
                     labelNameAss.Enabled = true;
                     textBoxName.Enabled = true;
+                    labelIPContr.Enabled = true;
+                    mTBIPContr.Enabled = true;
+                    btStatus.BackColor = System.Drawing.Color.LightGreen;
+                    btStatus.Text = "готово к работе";
 
                     threadSocket = null;
                     //buttonRun.Enabled = false;
@@ -157,8 +165,7 @@ namespace ServerRec
 
         private void testButton_Click(object sender, EventArgs e)
         {
-            PhysicalController pc = new PhysicalController(ipContr, "2");
-            pc.SendWeb();
+            
         }
     }
 }

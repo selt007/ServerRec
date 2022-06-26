@@ -53,6 +53,7 @@ namespace ServerRec
             this.checkBoxModel = new System.Windows.Forms.CheckBox();
             this.mTBIPContr = new System.Windows.Forms.MaskedTextBox();
             this.labelIPContr = new System.Windows.Forms.Label();
+            this.btStatus = new System.Windows.Forms.Button();
             this.boxLog.SuspendLayout();
             this.groupBoxIP.SuspendLayout();
             this.groupBoxModel.SuspendLayout();
@@ -65,14 +66,14 @@ namespace ServerRec
             this.richTextBox.Location = new System.Drawing.Point(6, 19);
             this.richTextBox.Name = "richTextBox";
             this.richTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
-            this.richTextBox.Size = new System.Drawing.Size(237, 218);
+            this.richTextBox.Size = new System.Drawing.Size(237, 237);
             this.richTextBox.TabIndex = 0;
             this.richTextBox.Text = "";
             // 
             // buttonLog
             // 
             this.buttonLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonLog.Location = new System.Drawing.Point(148, 255);
+            this.buttonLog.Location = new System.Drawing.Point(148, 274);
             this.buttonLog.Name = "buttonLog";
             this.buttonLog.Size = new System.Drawing.Size(75, 29);
             this.buttonLog.TabIndex = 2;
@@ -84,7 +85,7 @@ namespace ServerRec
             // 
             this.buttonRun.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonRun.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonRun.Location = new System.Drawing.Point(12, 255);
+            this.buttonRun.Location = new System.Drawing.Point(12, 274);
             this.buttonRun.Name = "buttonRun";
             this.buttonRun.Size = new System.Drawing.Size(130, 29);
             this.buttonRun.TabIndex = 3;
@@ -102,7 +103,7 @@ namespace ServerRec
             this.boxLog.Controls.Add(this.richTextBox);
             this.boxLog.Location = new System.Drawing.Point(241, 12);
             this.boxLog.Name = "boxLog";
-            this.boxLog.Size = new System.Drawing.Size(249, 272);
+            this.boxLog.Size = new System.Drawing.Size(249, 291);
             this.boxLog.TabIndex = 4;
             this.boxLog.TabStop = false;
             this.boxLog.Text = "Log:";
@@ -110,7 +111,7 @@ namespace ServerRec
             // testButton
             // 
             this.testButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.testButton.Location = new System.Drawing.Point(6, 243);
+            this.testButton.Location = new System.Drawing.Point(6, 262);
             this.testButton.Name = "testButton";
             this.testButton.Size = new System.Drawing.Size(112, 23);
             this.testButton.TabIndex = 2;
@@ -121,7 +122,7 @@ namespace ServerRec
             // buttonError
             // 
             this.buttonError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonError.Location = new System.Drawing.Point(131, 243);
+            this.buttonError.Location = new System.Drawing.Point(131, 262);
             this.buttonError.Name = "buttonError";
             this.buttonError.Size = new System.Drawing.Size(112, 23);
             this.buttonError.TabIndex = 1;
@@ -243,11 +244,11 @@ namespace ServerRec
             this.rb32.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rb32.AutoSize = true;
-            this.rb32.Location = new System.Drawing.Point(157, 92);
+            this.rb32.Location = new System.Drawing.Point(156, 92);
             this.rb32.Name = "rb32";
-            this.rb32.Size = new System.Drawing.Size(49, 17);
+            this.rb32.Size = new System.Drawing.Size(51, 17);
             this.rb32.TabIndex = 18;
-            this.rb32.Text = "256k";
+            this.rb32.Text = "32 bit";
             this.rb32.UseVisualStyleBackColor = true;
             // 
             // rb24
@@ -255,11 +256,11 @@ namespace ServerRec
             this.rb24.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rb24.AutoSize = true;
-            this.rb24.Location = new System.Drawing.Point(106, 92);
+            this.rb24.Location = new System.Drawing.Point(105, 92);
             this.rb24.Name = "rb24";
-            this.rb24.Size = new System.Drawing.Size(49, 17);
+            this.rb24.Size = new System.Drawing.Size(51, 17);
             this.rb24.TabIndex = 17;
-            this.rb24.Text = "128k";
+            this.rb24.Text = "24 bit";
             this.rb24.UseVisualStyleBackColor = true;
             // 
             // rb16
@@ -268,12 +269,12 @@ namespace ServerRec
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rb16.AutoSize = true;
             this.rb16.Checked = true;
-            this.rb16.Location = new System.Drawing.Point(54, 92);
+            this.rb16.Location = new System.Drawing.Point(53, 92);
             this.rb16.Name = "rb16";
-            this.rb16.Size = new System.Drawing.Size(43, 17);
+            this.rb16.Size = new System.Drawing.Size(51, 17);
             this.rb16.TabIndex = 16;
             this.rb16.TabStop = true;
-            this.rb16.Text = "64k";
+            this.rb16.Text = "16 bit";
             this.rb16.UseVisualStyleBackColor = true;
             // 
             // rb8
@@ -281,11 +282,11 @@ namespace ServerRec
             this.rb8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.rb8.AutoSize = true;
-            this.rb8.Location = new System.Drawing.Point(7, 92);
+            this.rb8.Location = new System.Drawing.Point(6, 92);
             this.rb8.Name = "rb8";
-            this.rb8.Size = new System.Drawing.Size(43, 17);
+            this.rb8.Size = new System.Drawing.Size(45, 17);
             this.rb8.TabIndex = 15;
-            this.rb8.Text = "32k";
+            this.rb8.Text = "8 bit";
             this.rb8.UseVisualStyleBackColor = true;
             // 
             // checkBoxModel
@@ -320,11 +321,25 @@ namespace ServerRec
             this.labelIPContr.TabIndex = 15;
             this.labelIPContr.Text = "IP контроллера:";
             // 
+            // btStatus
+            // 
+            this.btStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btStatus.BackColor = System.Drawing.Color.LightGreen;
+            this.btStatus.Enabled = false;
+            this.btStatus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btStatus.Location = new System.Drawing.Point(12, 244);
+            this.btStatus.Name = "btStatus";
+            this.btStatus.Size = new System.Drawing.Size(211, 24);
+            this.btStatus.TabIndex = 16;
+            this.btStatus.Text = "готово к работе";
+            this.btStatus.UseVisualStyleBackColor = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 296);
+            this.ClientSize = new System.Drawing.Size(502, 315);
+            this.Controls.Add(this.btStatus);
             this.Controls.Add(this.labelIPContr);
             this.Controls.Add(this.mTBIPContr);
             this.Controls.Add(this.groupBoxModel);
@@ -376,6 +391,7 @@ namespace ServerRec
         private System.Windows.Forms.Label labelModelAdd;
         private System.Windows.Forms.MaskedTextBox mTBIPContr;
         private System.Windows.Forms.Label labelIPContr;
+        private System.Windows.Forms.Button btStatus;
     }
 }
 

@@ -1,3 +1,4 @@
+using ServerRec.Network;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -38,7 +39,7 @@ public class VoskInit
     {
         // Demo float array
         VoskRecognizer rec = new VoskRecognizer(model, rate);
-        using(Stream source = File.OpenRead(nameAudio)) {
+        using (Stream source = File.OpenRead(nameAudio)) {
             byte[] buffer = new byte[4096];
             int bytesRead;
             while((bytesRead = source.Read(buffer, 0, buffer.Length)) > 0) {
@@ -112,6 +113,7 @@ public class VoskInit
                                 .Replace("{  \"text\" : ", "") + "\n");
                             rtb.ScrollToCaret();
                             str = "";
+                            new RequestAssistant(rtb.Lines).Get(rtb);
                         }));
 
         }

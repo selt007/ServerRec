@@ -4,8 +4,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms;
-using NAudio.Wave;
-using ServerRec.Network;
 
 namespace ServerRec
 {
@@ -59,40 +57,18 @@ namespace ServerRec
                     data = buffer.ToArray();
                     using (var acceptFile = new FileStream(file, FileMode.Create))
                     {
-                        /*uint numsamples = 44100;
-                        ushort numchannels = 1;
-                        ushort samplelength = 1; // in bytes
-                        uint samplerate = 22050;
-                        BinaryWriter wr = new BinaryWriter(acceptFile);
-
-                        wr.Write(Encoding.ASCII.GetBytes("RIFF"));
-                        wr.Write(36 + numsamples * numchannels * samplelength);
-                        wr.Write(Encoding.ASCII.GetBytes("WAVEfmt "));
-                        wr.Write(16);
-                        wr.Write((ushort)1);
-                        wr.Write(numchannels);
-                        wr.Write(samplerate);
-                        wr.Write(samplerate * samplelength * numchannels);
-                        wr.Write(samplelength * numchannels);
-                        wr.Write((ushort)(8 * samplelength));
-                        wr.Write(Encoding.ASCII.GetBytes("data"));
-                        wr.Write(numsamples * samplelength);*/
-
                         foreach (var byt in data) {
                             acceptFile.WriteByte(byt);
                         }
                         builder.Append("Голос сохранен, размер " + data.Length + " байт.\n");
-
-                        rtb.BeginInvoke(
-                            new Action(() =>
-                            {
-                                rtb.AppendText("=> " + DateTime.Now.ToLocalTime() +
-                                    ": " + builder.ToString());
-                                RequestAssistant ra = new RequestAssistant(rtb.Lines);
-                                ra.Get(rtb);
-                                rtb.ScrollToCaret();
-                            }));
                     }
+                    rtb.BeginInvoke(
+                        new Action(() =>
+                        {
+                            rtb.AppendText("=> " + DateTime.Now.ToLocalTime() +
+                                ": " + builder.ToString());
+                            rtb.ScrollToCaret();
+                        }));
                     voskInit.Run(file);
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
@@ -106,8 +82,6 @@ namespace ServerRec
                         rtb.Text += "<- " + 
                         "Ошибка!.. Запись произведена в error-log.txt!" + "\n";
                     }));
-                //MessageBox.Show(ex.Message, "Error!",
-                    //MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }        
     }

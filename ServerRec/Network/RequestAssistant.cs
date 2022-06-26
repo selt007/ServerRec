@@ -9,6 +9,7 @@ namespace ServerRec.Network
         string requestStr;
         string requestStrWithName;
         string resultStr;
+        PhysicalController controller;
 
         public RequestAssistant(string[] arr)
         {
@@ -17,6 +18,7 @@ namespace ServerRec.Network
             prevStr = arr[lineCount - 1].Substring(25).Replace("\"", "");
             requestStrWithName = arr[lineCount].Substring(25).Replace("\"", "");
             requestStr = arr[lineCount].Substring(25).Replace("\"", "").Replace(Config.nameAssist, "");
+            controller = new PhysicalController(MainForm.ipContr);
         }
 
         public void Get(RichTextBox rtb)
@@ -27,11 +29,16 @@ namespace ServerRec.Network
             {
                 if (requestStr.Contains("найди в интернете") || 
                     requestStr.Contains("найти в интернете")) {
-                    resultStr = "Вот что нашлось...";                        
+                    resultStr = "Вот что нашлось в интернете...";                        
                 }
                 else if (requestStr.Contains("найди в заметках") ||
                     requestStr.Contains("найти в заметках")) {
-                    resultStr = "Вот что нашлось...";
+                    resultStr = "Вот что нашлось в заметках...";
+                }
+                else if (requestStr.Contains("включи свет") || 
+                    requestStr.Contains("выключи свет")) {
+                    controller.SendWeb("LED2");
+                    resultStr = "Готово!";
                 }
                 else resultStr = "Не удалось выполнить запрос!";
 
