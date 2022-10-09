@@ -29,6 +29,7 @@ namespace ServerRec
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.richTextBox = new System.Windows.Forms.RichTextBox();
             this.buttonLog = new System.Windows.Forms.Button();
@@ -54,6 +55,7 @@ namespace ServerRec
             this.mTBIPContr = new System.Windows.Forms.MaskedTextBox();
             this.labelIPContr = new System.Windows.Forms.Label();
             this.btStatus = new System.Windows.Forms.Button();
+            this.tray = new System.Windows.Forms.NotifyIcon(this.components);
             this.boxLog.SuspendLayout();
             this.groupBoxIP.SuspendLayout();
             this.groupBoxModel.SuspendLayout();
@@ -111,11 +113,12 @@ namespace ServerRec
             // testButton
             // 
             this.testButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.testButton.Enabled = false;
             this.testButton.Location = new System.Drawing.Point(6, 262);
             this.testButton.Name = "testButton";
             this.testButton.Size = new System.Drawing.Size(112, 23);
             this.testButton.TabIndex = 2;
-            this.testButton.Text = "Test";
+            this.testButton.Text = "Говорить...";
             this.testButton.UseVisualStyleBackColor = true;
             this.testButton.Click += new System.EventHandler(this.testButton_Click);
             // 
@@ -306,20 +309,20 @@ namespace ServerRec
             // 
             // mTBIPContr
             // 
-            this.mTBIPContr.Location = new System.Drawing.Point(110, 215);
+            this.mTBIPContr.Location = new System.Drawing.Point(117, 215);
             this.mTBIPContr.Name = "mTBIPContr";
             this.mTBIPContr.PromptChar = ' ';
-            this.mTBIPContr.Size = new System.Drawing.Size(113, 20);
+            this.mTBIPContr.Size = new System.Drawing.Size(106, 20);
             this.mTBIPContr.TabIndex = 11;
             // 
             // labelIPContr
             // 
             this.labelIPContr.AutoSize = true;
-            this.labelIPContr.Location = new System.Drawing.Point(16, 218);
+            this.labelIPContr.Location = new System.Drawing.Point(12, 218);
             this.labelIPContr.Name = "labelIPContr";
-            this.labelIPContr.Size = new System.Drawing.Size(88, 13);
+            this.labelIPContr.Size = new System.Drawing.Size(104, 13);
             this.labelIPContr.TabIndex = 15;
-            this.labelIPContr.Text = "IP контроллера:";
+            this.labelIPContr.Text = "IP-адрес WiFi реле:";
             // 
             // btStatus
             // 
@@ -333,6 +336,17 @@ namespace ServerRec
             this.btStatus.TabIndex = 16;
             this.btStatus.Text = "готово к работе";
             this.btStatus.UseVisualStyleBackColor = false;
+            // 
+            // tray
+            // 
+            this.tray.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.tray.BalloonTipText = "Сервер будет находится в трее \r\nпока не будет закрыта программа\r\n(можно сделать г" +
+    "олосом)";
+            this.tray.BalloonTipTitle = "Server Assistant";
+            this.tray.Icon = ((System.Drawing.Icon)(resources.GetObject("tray.Icon")));
+            this.tray.Text = "Server Assistant";
+            this.tray.Visible = true;
+            this.tray.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.tray_MouseDoubleClick);
             // 
             // MainForm
             // 
@@ -352,11 +366,11 @@ namespace ServerRec
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Assistant Server";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.boxLog.ResumeLayout(false);
             this.groupBoxIP.ResumeLayout(false);
             this.groupBoxIP.PerformLayout();
@@ -393,6 +407,7 @@ namespace ServerRec
         private System.Windows.Forms.MaskedTextBox mTBIPContr;
         private System.Windows.Forms.Label labelIPContr;
         private System.Windows.Forms.Button btStatus;
+        private System.Windows.Forms.NotifyIcon tray;
     }
 }
 

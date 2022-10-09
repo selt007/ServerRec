@@ -1,128 +1,64 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows.Forms;
-using System.Threading;
-using System.Net;
-using System.Net.Sockets;
 using NAudio.Wave;
-using NAudio.CoreAudioApi;
+using StoppedEventArgs = NAudio.Wave.StoppedEventArgs;
 
 namespace ServerRec.Recognition
 {
     class RecordMic
     {
-        //Подключены ли мы
-        private bool connected;
-        //сокет отправитель
-        Socket client;
-        //поток для нашей речи
-        WaveIn input;
-        //поток для речи собеседника
-        WaveOut output;
-        //буфферный поток для передачи через сеть
-        BufferedWaveProvider bufferStream;
-        //поток для прослушивания входящих сообщений
-        Thread in_thread;
-        //сокет для приема (протокол UDP)
-        Socket listeningSocket;
-        VoskInit vosk;
+        string file_loc;
+        RichTextBox rtb;
+        WaveIn waveIn;
+        WaveFileWriter writer;
 
-        public RecordMic(RichTextBox rtb, string nameModel)
+        public RecordMic(string file_loc, RichTextBox rtb)
         {
-            //создаем поток для записи нашей речи
-            input = new WaveIn();
-            //определяем его формат - частота дискретизации 8000 Гц, ширина сэмпла - 16 бит, 1 канал - моно
-            input.WaveFormat = new WaveFormat(8000, 16, 1);
-            //добавляем код обработки нашего голоса, поступающего на микрофон
-            input.DataAvailable += Voice_Input;
-            //создаем поток для прослушивания входящего звука
-            output = new WaveOut();
-            //создаем поток для буферного потока и определяем у него такой же формат как и потока с микрофона
-            bufferStream = new BufferedWaveProvider(new WaveFormat(8000, 16, 1));
-            //привязываем поток входящего звука к буферному потоку
-            output.Init(bufferStream);
-            //сокет для отправки звука
-            client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            connected = true;
-            listeningSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            //создаем поток для прослушивания
-            in_thread = new Thread(new ThreadStart(Listening));
-            //запускаем его
-            in_thread.Start();
-            vosk = new VoskInit(rtb, nameModel);
+            this.file_loc = file_loc;
+            this.rtb = rtb;
         }
 
-        //Обработка нашего голоса
-        private void Voice_Input(object sender, WaveInEventArgs e)
+        void waveIn_DataAvailable(object sender, WaveInEventArgs e)
+        {
+            writer.WriteData(e.Buffer, 0, e.BytesRecorded);
+        }
+
+        private void waveIn_RecordingStopped(object sender, EventArgs e)
+        {
+            waveIn.Dispose();
+            waveIn = null;
+            writer.Close();
+            writer = null;
+            SetupSocket.voskInit.Run(file_loc);
+        }
+
+        public void StartRecording()
         {
             try
             {
-                //Подключаемся к удаленному адресу
-                IPEndPoint remote_point = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5555);
-                //посылаем байты, полученные с микрофона на удаленный адрес
-                client.SendTo(e.Buffer, remote_point);
+                waveIn = new WaveIn();
+                waveIn.DeviceNumber = 0;
+                waveIn.DataAvailable += waveIn_DataAvailable;
+                waveIn.RecordingStopped += new EventHandler<StoppedEventArgs>(waveIn_RecordingStopped);
+                waveIn.WaveFormat = new WaveFormat(16000, 1);
+                writer = new WaveFileWriter(file_loc, waveIn.WaveFormat);
+                waveIn.StartRecording();                 
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-                return;
+                rtb.BeginInvoke(
+                     new Action(() => {
+                         rtb.Text += "<- " +
+                         ex.Message + "\n";
+                     }));
             }
         }
-        //Прослушивание входящих подключений
-        private void Listening()
+        public void StopRecording()
         {
-            vosk.Init();
-            //Прослушиваем по адресу
-            IPEndPoint localIP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 5555);
-            listeningSocket.Bind(localIP);
-            //начинаем воспроизводить входящий звук
-            output.Play();
-            //адрес, с которого пришли данные
-            EndPoint remoteIp = new IPEndPoint(IPAddress.Any, 0);
-            //бесконечный цикл
-            while (connected == true)
+            if (waveIn != null)
             {
-                try
-                {
-                    //промежуточный буфер
-                    byte[] data = new byte[65535];
-                    //получено данных
-                    int received = listeningSocket.ReceiveFrom(data, ref remoteIp);
-                    //добавляем данные в буфер, откуда output будет воспроизводить звук
-                    bufferStream.AddSamples(data, 0, received);
-                    vosk.Run(data, received);
-                }
-                catch (SocketException ex)
-                { }
+                waveIn.StopRecording();
             }
-        }
-
-        public void Run()
-        {
-            vosk.Init();
-            input.StartRecording();
-        }
-
-        public void Dispose()
-        {
-            connected = false;
-            listeningSocket.Close();
-            listeningSocket.Dispose();
-
-            client.Close();
-            client.Dispose();
-            if (output != null)
-            {
-                output.Stop();
-                output.Dispose();
-                output = null;
-            }
-            if (input != null)
-            {
-                input.Dispose();
-                input = null;
-            }
-            bufferStream = null;
         }
     }
 }

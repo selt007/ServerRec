@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 
 namespace ServerRec.Network
 {
@@ -13,9 +14,12 @@ namespace ServerRec.Network
 
         public void SendWeb(string device)
         {
+            string address = $"http://" + ip + "/" + device;
+
             using (var webClient = new WebClient())
             {
-                webClient.DownloadString($"http://" + ip + "/" + device);
+                Uri uri = new Uri(address);
+                webClient.DownloadStringAsync(uri);
             }
         }
     }

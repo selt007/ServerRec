@@ -1,8 +1,6 @@
 ﻿using System.Threading;
 using System.Windows.Forms;
 using System;
-using ServerRec.Network;
-using ServerRec.Recognition;
 
 namespace ServerRec
 {
@@ -13,29 +11,27 @@ namespace ServerRec
         public static string ipContr;
         SetupSocket setSocket;
         Thread threadSocket;
-        RecordMic rec;
         static Config config;
         static int port;
         static string ip;
         public static bool run = false;
-        bool log = false;
+        bool log = false, tglRec = false;
         bool cfg;
 
         public MainForm()
         {
             InitializeComponent();
             ToggleLog();
-            errLog = new ErrorLoging();
 
+            errLog = new ErrorLoging();
             config = new Config(
                 maskedTextIP, maskedTextPort, textBoxName, modelNameLabel, mTBIPContr);
-            config.GetCfg(out cfg);
-            //rec = new RecordMic(richTextBox, modelNameLabel.Text);
+            config.GetCfg(out cfg);            
 
             if (rb8.Checked) rate = 8000.0f;
             else if (rb24.Checked) rate = 24000.0f;
             else if (rb32.Checked) rate = 32000.0f;
-            else rate = 16000.0f; 
+            else rate = 16000.0f;
         }
 
         private void buttonLog_Click(object sender, EventArgs e) => 
@@ -78,6 +74,7 @@ namespace ServerRec
                     textBoxName.Enabled = false;
                     labelIPContr.Enabled = false;
                     mTBIPContr.Enabled = false;
+                    testButton.Enabled = true;
                     btStatus.BackColor = System.Drawing.Color.LightGray;
                     btStatus.Text = "работает...";
 
@@ -101,6 +98,7 @@ namespace ServerRec
                     textBoxName.Enabled = true;
                     labelIPContr.Enabled = true;
                     mTBIPContr.Enabled = true;
+                    testButton.Enabled = false;
                     btStatus.BackColor = System.Drawing.Color.LightGreen;
                     btStatus.Text = "готово к работе";
 
@@ -172,12 +170,47 @@ namespace ServerRec
 
         private void testButton_Click(object sender, EventArgs e)
         {
-            
+            if (tglRec)
+            {
+                SetupSocket.rec.StopRecording();
+                testButton.Text = "Говорить...";
+                tglRec = false;
+            }
+            else
+            {
+                SetupSocket.rec.StartRecording();
+                testButton.Text = "Стоп!";
+                tglRec = true;
+            }
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             //rec.Dispose();
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.ShowInTaskbar = false;
+                this.Visible = false;
+                tray.ShowBalloonTip(2000);
+            }
+        }
+
+        private void tray_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.Visible = true;
+                this.ShowInTaskbar = true;
+                this.WindowState = FormWindowState.Normal;
+            } 
+            else if (this.WindowState == FormWindowState.Normal)
+            {
+                this.WindowState = FormWindowState.Minimized;
+            }
         }
     }
 }

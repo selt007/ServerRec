@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerRec.Recognition;
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -10,8 +11,10 @@ namespace ServerRec
     class SetupSocket
     {
         public static Socket listenSocket;
+        public static VoskInit voskInit;
+        public static RecordMic rec;
         string file = "temp\\temp.wav";
-        VoskInit voskInit;
+        string file_loc = "temp\\temp_loc.wav";
         ErrorLoging errLog;
         RichTextBox rtb;
         string ip;
@@ -28,6 +31,7 @@ namespace ServerRec
 
         public void RunSocket()
         {
+            rec = new RecordMic(file_loc, rtb);
             voskInit.Init();
 
             IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(ip), port);

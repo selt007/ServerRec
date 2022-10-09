@@ -1,6 +1,6 @@
-﻿using ServerRec.Recognition;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using ServerRec.Recognition;
 
 namespace ServerRec.Network
 {
@@ -32,7 +32,9 @@ namespace ServerRec.Network
             {
                 if (requestStr.Contains("найди в интернете") || 
                     requestStr.Contains("найти в интернете")) {
-                    resultStr = "Вот что нашлось в интернете...";                        
+                    string searchTxt = requestStr.Replace("найди в интернете", "")
+                        .Replace("найти в интернете", "");
+                    resultStr = new WebSearch().Search(searchTxt);                     
                 }
                 else if (requestStr.Contains("найди в заметках") ||
                     requestStr.Contains("найти в заметках")) {
@@ -49,9 +51,15 @@ namespace ServerRec.Network
                 }
                 else if (requestStr.Contains("как дела") || 
                     requestStr.Contains("как сам") ||
-                    requestStr.Contains("как сама") ||
-                    requestStr.Contains("че кого")) {
-                    resultStr = new AssistantAnswer().AnswWhatsup();
+                    requestStr.Contains("как сама")) {
+                    resultStr = new AssistantAnswer().AnswWhatsUp();
+                }
+                else if (requestStrWithName.Contains("закрой саму себя") ||
+                    requestStrWithName.Contains("заверши работ") ||
+                    requestStrWithName.Contains("завершил работ")) {
+                    resultStr = new AssistantAnswer().AnswTurnOff();
+                    //System.Threading.Thread.Sleep(3000);
+                    Application.Exit();
                 }
                 else resultStr = "Не удалось выполнить запрос!";
                 try {
