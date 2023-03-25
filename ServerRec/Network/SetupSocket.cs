@@ -13,6 +13,9 @@ namespace ServerRec
         public static Socket listenSocket;
         public static VoskInit voskInit;
         public static RecordMic rec;
+        public static int msTimer;
+        System.Threading.Timer timer;
+        System.Threading.TimerCallback tm;
         string file = "temp\\temp.wav";
         string file_loc = "temp\\temp_loc.wav";
         ErrorLoging errLog;
@@ -27,12 +30,22 @@ namespace ServerRec
             this.port = port;
             errLog = new ErrorLoging();
             voskInit = new VoskInit(rtb, model);
+            msTimer = 3500;
+        }
+
+        private void SetTimer(object obj)
+        {
+            rec = new RecordMic(file_loc, rtb);
+            rec.StartRecording();
         }
 
         public void RunSocket()
         {
             rec = new RecordMic(file_loc, rtb);
             voskInit.Init();
+
+            //tm = new System.Threading.TimerCallback(SetTimer);
+            //timer = new System.Threading.Timer(tm, null, 0, msTimer);
 
             IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(ip), port);
             listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

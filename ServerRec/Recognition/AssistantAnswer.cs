@@ -35,7 +35,14 @@ namespace ServerRec.Recognition
         public string AnswTurnOff()
         {
             string[] arr = { "будет исполненно", "секунду. точнее две", "сейчас сделаю",
-                "эх. жалко. отключаюсь", "обратный отсчет. 5.4.3.2.1" };
+                "эх. жалко. отключаюсь", "обратный отсчет. 5 4 3 2 1" };
+            return arr[rnd.Next(0, arr.Length)];
+        }
+
+        public string AnswBeforeDone()
+        {
+            string[] arr = { "повторно не выйдет, увы", "уже было сделано", "уже готово",
+                "не имеет смысла", "не стоит" };
             return arr[rnd.Next(0, arr.Length)];
         }
     }

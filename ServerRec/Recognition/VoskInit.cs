@@ -88,6 +88,7 @@ public class VoskInit
                             //RecordMic rm = new RecordMic(rtb);
                             //rm.RecordAudio(2);
                         }));
+        new RequestAssistant();
     }
 
     public void Run(string audio)
@@ -99,15 +100,18 @@ public class VoskInit
 
             rtb.BeginInvoke(
                         new Action(() => {
-                            rtb.AppendText("=> " + DateTime.Now.ToLocalTime() + ": " +
-                                str.Replace("}", "").Replace("\n", "")
+                            str = str.Replace("}", "").Replace("\n", "")
                                 .Replace("{\"text\": ", "")
-                                .Replace("{  \"text\" : ", "") + "\n");
-                            rtb.ScrollToCaret();
+                                .Replace("{  \"text\" : ", "");
+                            if (str != "\"\"")
+                            {
+                                rtb.AppendText("=> " + DateTime.Now.ToLocalTime() + ": " +
+                                    str + "\n");
+                                rtb.ScrollToCaret();
+                                new RequestAssistant(rtb.Lines).Get(rtb);
+                            }
                             str = "";
-                            new RequestAssistant(rtb.Lines).Get(rtb);
                         }));
-
         }
         else
         {
@@ -127,13 +131,17 @@ public class VoskInit
 
             rtb.BeginInvoke(
                         new Action(() => {
-                            rtb.AppendText("=> " + DateTime.Now.ToLocalTime() + ": " +
-                                str.Replace("}", "").Replace("\n", "")
+                            str = str.Replace("}", "").Replace("\n", "")
                                 .Replace("{\"text\": ", "")
-                                .Replace("{  \"text\" : ", "") + "\n");
-                            rtb.ScrollToCaret();
+                                .Replace("{  \"text\" : ", "");
+                            if (str != "\"\"")
+                            {
+                                rtb.AppendText("=> " + DateTime.Now.ToLocalTime() + ": " +
+                                    str + "\n");
+                                rtb.ScrollToCaret();
+                                new RequestAssistant(rtb.Lines).Get(rtb);
+                            }
                             str = "";
-                            new RequestAssistant(rtb.Lines).Get(rtb);
                         }));
 
         }
